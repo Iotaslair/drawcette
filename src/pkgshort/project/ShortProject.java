@@ -1,19 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import javafx.scene.shape.Line;
+import javafx.scene.layout.Pane;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -38,7 +32,7 @@ public class ShortProject extends Application {
         //    }
         //});
         
-        StackPane root = new StackPane();
+        Pane root = new Pane();
         //root.getChildren().add(btn);
 
         
