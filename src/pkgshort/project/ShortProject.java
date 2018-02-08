@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.*;
 import javafx.scene.input.*;
+import javafx.scene.Node;
 
 /**
  *
@@ -33,39 +34,15 @@ public class ShortProject extends Application {
 
         MenuBar menuBar = createMenu();
         VBox menuBox = addVBox();
+        Pane surface = addSurface();
         
         // Set both panes' positions on main pane
         root.setTop(menuBar);
         root.setLeft(menuBox);
+        root.setCenter(surface);
         
         Scene scene = new Scene(root, 800, 800);
-        
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println(event.getX() + ", " + event.getY());
-                if (firstClick){
-                    firstClick = false;
-                    storedx = event.getX();
-                    storedy = event.getY();
-                }
-                else {
-                    firstClick = true;
-                    // Make line
-                    Line line = new Line();
-                    line.setStartX(storedx);
-                    line.setStartY(storedy);
-                    line.setEndX(event.getX());
-                    line.setEndY(event.getY());
-                    
-                    root.getChildren().add(line);
-                    
-                    storedx = -1;
-                    storedy = -1;
-                }
-            }
-        });
-        
+                
         primaryStage.setTitle("Photopoop");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -128,6 +105,39 @@ public class ShortProject extends Application {
         vbox.getChildren().addAll(btn1, btn2, btn3, btn4, btn5);
 
         return vbox;
+    }
+    
+    public Pane addSurface() {
+        Pane surface = new Pane();
+        
+        // Add an event handaler to the pane and make it draw lines for now.
+        surface.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println(event.getX() + ", " + event.getY());
+                if (firstClick){
+                    firstClick = false;
+                    storedx = event.getX();
+                    storedy = event.getY();
+                }
+                else {
+                    firstClick = true;
+                    // Make line
+                    Line line = new Line();
+                    line.setStartX(storedx);
+                    line.setStartY(storedy);
+                    line.setEndX(event.getX());
+                    line.setEndY(event.getY());
+                    
+                    surface.getChildren().add(line);
+                    
+                    storedx = -1;
+                    storedy = -1;
+                }
+            }
+        });
+        
+        return surface;
     }
         
 }
