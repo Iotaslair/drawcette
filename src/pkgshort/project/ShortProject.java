@@ -67,6 +67,7 @@ public class ShortProject extends Application {
         Menu printMenu = new Menu("Print");
         Menu exitMenu = new Menu("Exit");
         
+        onAction(exitMenu);
         exitMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 javafx.application.Platform.exit();
@@ -138,5 +139,13 @@ public class ShortProject extends Application {
         });
         
         return surface;
-    }    
+    } 
+
+    public static void onAction(Menu menu) {
+        final MenuItem menuItem = new MenuItem();
+
+        menu.getItems().add(menuItem);
+        menu.addEventHandler(Menu.ON_SHOWN, event -> menu.hide());
+        menu.addEventHandler(Menu.ON_SHOWING, event -> menu.fire());
+    }
 }
