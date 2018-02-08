@@ -115,26 +115,10 @@ public class ShortProject extends Application {
         surface.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println(event.getX() + ", " + event.getY());
-                if (firstClick){
-                    firstClick = false;
-                    storedx = event.getX();
-                    storedy = event.getY();
-                }
-                else {
-                    firstClick = true;
-                    // Make line
-                    Line line = new Line();
-                    line.setStartX(storedx);
-                    line.setStartY(storedy);
-                    line.setEndX(event.getX());
-                    line.setEndY(event.getY());
-                    
-                    surface.getChildren().add(line);
-                    
-                    storedx = -1;
-                    storedy = -1;
-                }
+                // Needs to add a check for what button is down to call approperate function on surface.
+                
+                // An example function to call on surface.
+                drawLine(surface, event);       
             }
         });
         
@@ -147,5 +131,31 @@ public class ShortProject extends Application {
         menu.getItems().add(menuItem);
         menu.addEventHandler(Menu.ON_SHOWN, event -> menu.hide());
         menu.addEventHandler(Menu.ON_SHOWING, event -> menu.fire());
+    }
+    
+    /*  Function that given a mouse even and a surface advances 
+     *  the line drawing process on that surface by one click.
+     */
+    public void drawLine(Pane surface, MouseEvent event) {
+        System.out.println(event.getX() + ", " + event.getY());
+        if (firstClick){
+            firstClick = false;
+            storedx = event.getX();
+            storedy = event.getY();
+        }
+        else {
+            firstClick = true;
+            // Make line
+            Line line = new Line();
+            line.setStartX(storedx);
+            line.setStartY(storedy);
+            line.setEndX(event.getX());
+            line.setEndY(event.getY());
+                    
+            surface.getChildren().add(line);
+                    
+            storedx = -1;
+            storedy = -1;
+        }
     }
 }
