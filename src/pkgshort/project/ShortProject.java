@@ -5,6 +5,9 @@
  */
 
 import static javafx.application.Application.launch;
+
+import com.sun.media.jfxmediaimpl.platform.Platform;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -15,7 +18,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.*;
 import javafx.scene.input.*;
-import javafx.scene.Node;
 
 /**
  *
@@ -29,13 +31,12 @@ public class ShortProject extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-       
         BorderPane root = new BorderPane();
 
         MenuBar menuBar = createMenu();
-        VBox menuBox = addVBox();
+        VBox menuBox = createSidebar();
         Pane surface = addSurface();
-        
+                
         // Set both panes' positions on main pane
         root.setTop(menuBar);
         root.setLeft(menuBox);
@@ -60,28 +61,27 @@ public class ShortProject extends Application {
         MenuBar menuBar = new MenuBar();
         
         // Create menus
-        Menu fileMenu = new Menu("File");
-        Menu exportMenu = new Menu("Export");
+        Menu newMenu = new Menu("New");
+        Menu saveMenu = new Menu("Save");
+        Menu loadMenu = new Menu("Load");
+        Menu printMenu = new Menu("Print");
+        Menu exitMenu = new Menu("Exit");
         
-        // Create Menu Items
-        MenuItem newItem = new MenuItem("New");
-        MenuItem openFileItem = new MenuItem("Open File");
-        MenuItem exitItem = new MenuItem("Exit");
-        
-        MenuItem exportSvgItem = new MenuItem("Export into SVG");
-        MenuItem printItem = new MenuItem("Print");
-        
+        exitMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                javafx.application.Platform.exit();
+            }
+        });
         // Add menuItems to the Menus
-        fileMenu.getItems().addAll(newItem, openFileItem, exitItem);
-        exportMenu.getItems().addAll(exportSvgItem, printItem);
+        //fileMenu.getItems().addAll(newItem, openFileItem, exitItem);
         
         // Add Menus to the MenuBar
-        menuBar.getMenus().addAll(fileMenu, exportMenu);
+        menuBar.getMenus().addAll(newMenu, saveMenu, loadMenu, printMenu, exitMenu);
         
         return menuBar;
     }
     
-    public VBox addVBox() {
+    public VBox createSidebar() {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(15, 12, 15, 12));
         vbox.setSpacing(10);
@@ -110,7 +110,7 @@ public class ShortProject extends Application {
     public Pane addSurface() {
         Pane surface = new Pane();
         
-        // Add an event handaler to the pane and make it draw lines for now.
+        // Add an event handler to the pane and make it draw lines for now.
         surface.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -138,6 +138,5 @@ public class ShortProject extends Application {
         });
         
         return surface;
-    }
-        
+    }    
 }

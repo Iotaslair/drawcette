@@ -1,2 +1,5 @@
-/build/
-/dist/
+/bin/
+.classpath
+.project
+src/pkgshort/project/ShortProject$1.class
+src/pkgshort/project/ShortProject.class
