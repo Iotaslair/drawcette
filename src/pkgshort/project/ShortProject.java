@@ -79,16 +79,7 @@ public class ShortProject extends Application {
         
         return menuBar;
     }
-    
-    public static void onAction(Menu menu)
-    {
-        final MenuItem menuItem = new MenuItem();
-
-        menu.getItems().add(menuItem);
-        menu.addEventHandler(Menu.ON_SHOWN, event -> menu.hide());
-        menu.addEventHandler(Menu.ON_SHOWING, event -> menu.fire());
-    }
-    
+        
     public VBox createSidebar() {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(5, 25, 15, 15));
