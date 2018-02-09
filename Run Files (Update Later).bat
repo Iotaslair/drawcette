@@ -1,9 +1,10 @@
 @echo off
 
-cd src\pkgshort\project
+javac src\shortproj\ShortProject.java
+javac src\shortproj\gui\TopMenu.java
+javac src\shortproj\gui\SideBar.java
+javac src\shortproj\gui\ColorBar.java
 
-javac ShortProject.java
-
-java ShortProject
+java src\shortproj\ShortProject
 
 pause
