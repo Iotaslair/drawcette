@@ -50,6 +50,31 @@ public final class TopMenu extends MenuBar {
     public void load(Stage primaryStage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
+        
+        //allows for the user to filter between different types of files
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Files", "*.*"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
+                new FileChooser.ExtensionFilter("PNG", "*.png")
+            );
+        //opens up the file
         fileChooser.showOpenDialog(primaryStage);
     }
+
+
+    // Opens up file opener, need to find a way to display what is opened
+    public void load(Stage primaryStage) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+
+        
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Files", "*.*"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
+                new FileChooser.ExtensionFilter("PNG", "*.png")
+            );
+        
+        fileChooser.showOpenDialog(primaryStage);
+    }
+}
 }
