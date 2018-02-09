@@ -260,6 +260,14 @@ public class ShortProject extends Application {
     public void load(Stage primaryStage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
+
+        //allows for the user to filter between different types of files
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Files", "*.*"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
+                new FileChooser.ExtensionFilter("PNG", "*.png")
+            );
+        //opens up the file
         fileChooser.showOpenDialog(primaryStage);
     }
 }
