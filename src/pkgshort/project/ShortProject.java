@@ -5,6 +5,7 @@
  */
 
 import javafx.application.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.event.ActionEvent;
@@ -30,7 +31,7 @@ public class ShortProject extends Application {
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
 
-        MenuBar menuBar = createMenu();
+        MenuBar menuBar = createMenu(primaryStage);
         VBox menuBox = createSidebar();
         HBox colorPicker = createBottomToolbar();
         Pane surface = addSurface();
@@ -43,7 +44,7 @@ public class ShortProject extends Application {
         
         Scene scene = new Scene(root, 1000, 800);
                 
-        primaryStage.setTitle("Photopoop");
+        primaryStage.setTitle("Photopoop v.0.0.01");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -55,7 +56,7 @@ public class ShortProject extends Application {
         launch(args);
     }
     
-    public MenuBar createMenu() {
+    public MenuBar createMenu(Stage stage) {
         // Create MenuBar
         MenuBar menuBar = new MenuBar();
         
@@ -73,9 +74,13 @@ public class ShortProject extends Application {
             }
         });
         
-        // Add menuItems to the Menus
-        //fileMenu.getItems().addAll(newItem, openFileItem, exitItem);
-        
+        onAction(loadMenu);
+        loadMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                load(stage);
+            }
+        });
+
         // Add Menus to the MenuBar
         menuBar.getMenus().addAll(newMenu, saveMenu, loadMenu, printMenu, exitMenu);
         
@@ -251,9 +256,8 @@ public class ShortProject extends Application {
         }
     }
 
-    //Opens up file opener, need to find a way to display what is opened
-    public void load(Stage primaryStage)
-    {
+    // Opens up file opener, need to find a way to display what is opened
+    public void load(Stage primaryStage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.showOpenDialog(primaryStage);
