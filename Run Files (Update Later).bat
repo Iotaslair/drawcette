@@ -1,10 +1,19 @@
 @echo off
 
-javac src\shortproj\ShortProject.java
-javac src\shortproj\gui\TopMenu.java
-javac src\shortproj\gui\SideBar.java
-javac src\shortproj\gui\ColorBar.java
+cd src\shortproj\gui
 
-java src\shortproj\ShortProject
+javac ColorBar.java
+javac SideBar.java
+javac TopMenu.java
+
+cd..
+
+cd util
+
+javac Context.java
+
+cd..
+
+javac ShortProject.java
 
 pause
