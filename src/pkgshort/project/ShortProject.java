@@ -250,4 +250,12 @@ public class ShortProject extends Application {
             storedy = -1;
         }
     }
+
+    //Opens up file opener, need to find a way to display what is opened
+    public void load(Stage primaryStage)
+    {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.showOpenDialog(primaryStage);
+    }
 }
