@@ -91,7 +91,7 @@ public class ShortProject extends Application {
         VBox vbox = new VBox();
         vbox.setPadding(new Insets(5, 25, 15, 15));
         vbox.setSpacing(10);
-        vbox.setStyle("-fx-background-color: #336699;");
+        vbox.setStyle("-fx-background-color: #336699;");    //Sets color to inputted value
 
         // Tool Group 1
         final ToggleGroup group1 = new ToggleGroup();
@@ -140,9 +140,9 @@ public class ShortProject extends Application {
     }
     
     public HBox createBottomToolbar() {
-    	HBox hbox = new HBox();
-    	
-    	// Set up the panel
+        HBox hbox = new HBox();
+        
+        // Set up the panel
         hbox.setPadding(new Insets(20, 20, 15, 15));
         hbox.setSpacing(10);
         hbox.setStyle("-fx-background-color: #444;");
@@ -200,8 +200,8 @@ public class ShortProject extends Application {
         color8.setStyle("-fx-base: black;");
 
         hbox.getChildren().addAll(color1, color2, color3, color4, color5, color6, color7, color8);
-    	
-    	return hbox;
+        
+        return hbox;
     }
     
     public Pane addSurface() {
