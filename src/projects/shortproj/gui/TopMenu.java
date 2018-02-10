@@ -1,6 +1,7 @@
 package projects.shortproj.gui;
 
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -9,7 +10,12 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 import projects.shortproj.util.Context;
+
 
 public final class TopMenu extends MenuBar {
 
@@ -35,6 +41,14 @@ public final class TopMenu extends MenuBar {
             }
         });
 
+        onAction(saveMenu);
+        saveMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle (ActionEvent e){
+                save(context.stage);
+            }
+
+        });
+
         // Add Menus to the MenuBar
         this.getMenus().addAll(newMenu, saveMenu, loadMenu, printMenu, exitMenu);
 	}
@@ -51,6 +65,36 @@ public final class TopMenu extends MenuBar {
     public void load(Stage primaryStage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
+
+        //allows for the user to filter between different types of files
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("All Files", "*.*"),
+                new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
+                new FileChooser.ExtensionFilter("PNG", "*.png")
+            );
+        //opens up the file
         fileChooser.showOpenDialog(primaryStage);
+    }
+
+    public void save(Stage primaryStage)
+    {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
+
+        File file = fileChooser.showOpenDialog(primaryStage);
+        if (file != null)
+        {
+        	System.out.println("Trying to save!");
+           /* 
+        	try
+            {
+                ImageIO.write(SwingFXUtils.fromFXImage(pic.getImage(), null),"png",file);
+            }
+            catch (IOException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+            */
+        }
     }
 }
