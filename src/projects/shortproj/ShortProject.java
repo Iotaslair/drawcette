@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.input.*;
 
@@ -20,6 +21,7 @@ import javafx.scene.input.*;
 public class ShortProject extends Application {
 	
     private Context context;
+	private ColorBar colorPicker;
 	
     @Override
     public void start(Stage primaryStage) {
@@ -29,7 +31,7 @@ public class ShortProject extends Application {
         
         MenuBar menuBar = new TopMenu(context);
         VBox menuBox = new SideBar(context);
-        HBox colorPicker = new ColorBar(context);
+        colorPicker = new ColorBar(context);
         Pane surface = addSurface();
         
         // Set both panes' positions on main pane
@@ -83,6 +85,8 @@ public class ShortProject extends Application {
             context.firstClick = true;
             // Make line
             Line line = new Line();
+            Paint c = colorPicker.getColor();
+            line.setStroke(c);
             
             line.setStartX(context.storedx);
             line.setStartY(context.storedy);
