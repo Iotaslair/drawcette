@@ -9,6 +9,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import util.Context;
+import javafx.ImageIO.ImageIO;
 
 public final class TopMenu extends MenuBar {
 
@@ -74,7 +75,17 @@ public final class TopMenu extends MenuBar {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
 
-
-        fileChooser.showOpenDialog(primaryStage);
+        File file = fileChooser.showOpenDialog(primaryStage);
+        if (file != null)
+        {
+            try
+            {
+                ImageIO.write(SwingFXUtils.fromFXImage(pic.getImage(), null),"png",file);
+            }
+            catch (IOException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 }
