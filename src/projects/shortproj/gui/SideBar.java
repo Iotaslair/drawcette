@@ -1,4 +1,4 @@
-package gui;
+package projects.shortproj.gui;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -7,7 +7,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import util.Context;
+import projects.shortproj.util.Context;
 
 public final class SideBar extends VBox {
 	public SideBar(Context context) {

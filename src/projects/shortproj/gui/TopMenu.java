@@ -1,4 +1,4 @@
-package gui;
+package projects.shortproj.gui;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -8,7 +8,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import util.Context;
+
+import projects.shortproj.util.Context;
 
 public final class TopMenu extends MenuBar {
 

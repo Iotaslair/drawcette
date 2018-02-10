@@ -1,11 +1,11 @@
-package gui;
+package projects.shortproj.gui;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.HBox;
-import util.Context;
+import projects.shortproj.util.Context;
 
 public class ColorBar extends HBox {
 	public ColorBar(Context context) {

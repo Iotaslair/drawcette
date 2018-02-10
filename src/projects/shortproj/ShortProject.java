@@ -1,7 +1,7 @@
+package projects.shortproj;
 
-
-import gui.*;
-import util.*;
+import projects.shortproj.gui.*;
+import projects.shortproj.util.Context;
 
 import javafx.application.*;
 import javafx.stage.FileChooser;
@@ -18,16 +18,15 @@ import javafx.scene.input.*;
 
 
 public class ShortProject extends Application {
-    
-    Boolean firstClick = true;
-    double storedx = -1;
-    double storedy = -1;
-    
+	
+    private Context context;
+	
     @Override
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
 
-        Context context = new Context(primaryStage);
+        context = new Context(primaryStage);
+        
         MenuBar menuBar = new TopMenu(context);
         VBox menuBox = new SideBar(context);
         HBox colorPicker = new ColorBar(context);
@@ -75,25 +74,25 @@ public class ShortProject extends Application {
      */
     public void drawLine(Pane surface, MouseEvent event) {
         System.out.println(event.getX() + ", " + event.getY());
-        if (firstClick){
-            firstClick = false;
-            storedx = event.getX();
-            storedy = event.getY();
+        if (context.firstClick){
+            context.firstClick = false;
+            context.storedx = event.getX();
+            context.storedy = event.getY();
         }
         else {
-            firstClick = true;
+            context.firstClick = true;
             // Make line
             Line line = new Line();
             
-            line.setStartX(storedx);
-            line.setStartY(storedy);
+            line.setStartX(context.storedx);
+            line.setStartY(context.storedy);
             line.setEndX(event.getX());
             line.setEndY(event.getY());
             
             surface.getChildren().add(line);
                     
-            storedx = -1;
-            storedy = -1;
+            context.storedx = -1;
+            context.storedy = -1;
         }
     }
 }
