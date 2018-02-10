@@ -12,6 +12,7 @@ javac src\projects\shortproj\gui\TopMenu.java -cp src\ -d bin\
 javac src\projects\shortproj\gui\SideBar.java -cp src\ -d bin\
 javac src\projects\shortproj\gui\ColorBar.java -cp src\ -d bin\
 javac src\projects\shortproj\util\Context.java -cp src\ -d bin\
+javac src\projects\shortproj\gui\DrawingSurface.java -cp src\ -d bin\
 
 cd bin\
 

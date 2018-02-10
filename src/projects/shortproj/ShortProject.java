@@ -4,18 +4,10 @@ import projects.shortproj.gui.*;
 import projects.shortproj.util.Context;
 
 import javafx.application.*;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.*;
-import javafx.scene.input.*;
 
 
 public class ShortProject extends Application {
@@ -30,9 +22,9 @@ public class ShortProject extends Application {
         context = new Context(primaryStage);
         
         MenuBar menuBar = new TopMenu(context);
-        VBox menuBox = new SideBar(context);
+        SideBar menuBox = new SideBar(context);
         colorPicker = new ColorBar(context);
-        Pane surface = addSurface();
+        Pane surface = new DrawingSurface(menuBox, colorPicker, context);
         
         // Set both panes' positions on main pane
         root.setTop(menuBar);
@@ -52,51 +44,5 @@ public class ShortProject extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }
-        
-    public Pane addSurface() {
-        Pane surface = new Pane();
-        
-        // Add an event handler to the pane and make it draw lines for now.
-        surface.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                // Needs to add a check for what button is down to call approperate function on surface.
-                
-                // An example function to call on surface.
-                drawLine(surface, event);       
-            }
-        });
-
-        return surface;
-    }
-
-    /*  Function that given a mouse even and a surface advances 
-     *  the line drawing process on that surface by one click.
-     */
-    public void drawLine(Pane surface, MouseEvent event) {
-        System.out.println(event.getX() + ", " + event.getY());
-        if (context.firstClick){
-            context.firstClick = false;
-            context.storedx = event.getX();
-            context.storedy = event.getY();
-        }
-        else {
-            context.firstClick = true;
-            // Make line
-            Line line = new Line();
-            Paint c = colorPicker.getColor();
-            line.setStroke(c);
-            
-            line.setStartX(context.storedx);
-            line.setStartY(context.storedy);
-            line.setEndX(event.getX());
-            line.setEndY(event.getY());
-            
-            surface.getChildren().add(line);
-                    
-            context.storedx = -1;
-            context.storedy = -1;
-        }
     }
 }
