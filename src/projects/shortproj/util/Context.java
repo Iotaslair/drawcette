@@ -17,4 +17,10 @@ public class Context {
 		
 		firstClick = true;
 	}
+	
+	public void resetLastClick() {
+		storedx = 0;
+		storedy = 0;
+		firstClick = true;
+	}
 }

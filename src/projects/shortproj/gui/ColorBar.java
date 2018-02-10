@@ -28,7 +28,7 @@ public class ColorBar extends HBox {
         
         // Color Palette        
         color1.setToggleGroup(group);
-         color1.setTextFill(Color.RED);
+        color1.setTextFill(Color.RED);
         color1.setSelected(true);
         color1.setPrefSize(30, 30);
         color1.setStyle("-fx-base: red;");

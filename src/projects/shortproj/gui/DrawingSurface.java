@@ -24,10 +24,15 @@ public class DrawingSurface extends Pane {
         this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                // Needs to add a check for what button is down to call appropriate function on surface.
+                // Asks sidebar what button is down to call appropriate function on surface.
+                String depressedButton = sideBar.getDepressedButtonGroup1();
                 
-                // An example function to call on surface.
-                drawLine(event);
+                switch (depressedButton) {
+                	case "line": drawLine(event);
+                			 	 break;
+                	default:     System.out.println("Don't know what to do with this click.");
+                				 break;
+                }
             }
         });
 		
