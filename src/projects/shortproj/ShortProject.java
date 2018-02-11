@@ -1,7 +1,7 @@
-package projects.shortproj;
+ 
 
-import projects.shortproj.gui.*;
-import projects.shortproj.util.Context;
+//import projects.shortproj.gui.*;
+//import projects.shortproj.util.Context;
 
 import javafx.application.*;
 import javafx.stage.Stage;
