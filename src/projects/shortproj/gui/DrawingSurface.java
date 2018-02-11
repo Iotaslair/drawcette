@@ -7,7 +7,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.scene.transform.Rotate;
 import projects.shortproj.util.Context;
+import java.lang.Math;
 
 public class DrawingSurface extends Pane {
 
@@ -30,15 +32,11 @@ public class DrawingSurface extends Pane {
                 switch (depressedButton) {
                 	case "line": 	drawLine(event);
                 			 	 	break;
-                	case "drag": 	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
-                						Node node = (Node) event.getTarget();
-                						if(node.getParent() instanceof Group) node = node.getParent();
-                						
-                						context.storedx = node.getTranslateX() - event.getSceneX();
-                						context.storedy = node.getTranslateX() - event.getSceneY();
-                	}
+                	case "drag": 	dragClick(event);
                 				 	break;
                 	case "group":	newGroup(event);
+                					break;
+                	case "rotate":	rotateClick(event);
                 					break;
                 	case "remove":	removeFromGroup(event);
                 					break;
@@ -55,13 +53,8 @@ public class DrawingSurface extends Pane {
         		String depressedButton = sideBar.getDepressedButtonGroup1();
         		
         		switch (depressedButton) {
-        			case "drag":	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
-        								Node node = (Node) event.getTarget();
-                						if(node.getParent() instanceof Group) node = node.getParent();
-        								
-        								node.setTranslateX(event.getSceneX() + context.storedx);
-        								node.setTranslateY(event.getSceneY() + context.storedy);
-        			}
+        			case "drag":	dragDrag(event);
+        							break;
         		}
         	}
         });
@@ -73,14 +66,24 @@ public class DrawingSurface extends Pane {
         		String depressedButton = sideBar.getDepressedButtonGroup1();
         		
         		switch (depressedButton) {
-        			case "drag":	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
-        								context.storedx = -1;
-        								context.storedy = -1;
-        			}
+        			case "drag":	dragRelease(event);
+        							break;
         		}
         	}
         });
-		
+        
+     // Add an event handler for mouse move.
+        this.addEventFilter(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
+        	@Override
+        	public void handle(MouseEvent event) {
+        		String depressedButton = sideBar.getDepressedButtonGroup1();
+        		
+        		switch (depressedButton) {
+        			case "rotate":	rotateMove(event);
+        							break;
+        		}
+        	}
+        });
 	}
 	
 	
@@ -89,13 +92,13 @@ public class DrawingSurface extends Pane {
      */
     public void drawLine(MouseEvent event) {
         System.out.println(event.getX() + ", " + event.getY());
-        if (context.firstClick){
-            context.firstClick = false;
+        if (context.clickCount == 0){
+            context.clickCount++;
             context.storedx = event.getX();
             context.storedy = event.getY();
         }
         else {
-            context.firstClick = true;
+            context.clickCount = 0;
             // Make line
             Line line = new Line();
             Paint c = colorBar.getColor();
@@ -117,10 +120,10 @@ public class DrawingSurface extends Pane {
      *  a new group.
      */
     public void newGroup(MouseEvent event) {
-    	if (context.firstClick || context.storedGroup == null) {
+    	if (context.clickCount == 0 || context.storedGroup == null) {
     		context.storedGroup = new Group();
     		this.getChildren().add(context.storedGroup);
-    		context.firstClick = false;
+    		context.clickCount++;
     	}
     	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface) 
     			&& !context.storedGroup.getChildren().contains(event.getTarget())) {
@@ -134,6 +137,66 @@ public class DrawingSurface extends Pane {
     	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
     		this.getChildren().add((Node) event.getTarget());
     		System.out.println("Removed a Node from a group.");
+    	}
+    }
+    
+    
+    // Object / group rotation functions.
+    public void rotateClick(MouseEvent event) {
+    	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface) && context.clickCount == 0) {
+			Node node = (Node) event.getTarget();
+			if(node.getParent() instanceof Group) node = node.getParent();
+			
+			context.storedNode = node;
+			context.clickCount++;
+			System.out.println("Rotating a Node");
+				
+    	} else if(context.clickCount == 1) {
+			Rotate rotate = new Rotate(0, event.getSceneX(), event.getSceneY());
+			context.storedNode.getTransforms().add(rotate);
+			context.transform = rotate;
+			context.clickCount++;
+		} else {
+			context.clickCount = 0;
+		}
+    }
+    
+    // Rotate is a little broken. This function is to blame but the solution is not obvious yet.
+    public void rotateMove(MouseEvent event) {
+    	if(context.clickCount == 2 && context.transform != null && context.transform instanceof Rotate) {
+    		Rotate rotate = (Rotate) context.transform;
+    		double angle = Math.toDegrees(Math.atan2(-context.storedy + event.getSceneY(), context.storedx - event.getSceneX()));
+    		angle = (angle < 0) ? (360d + angle) : angle;
+    		rotate.setAngle(angle);
+    	}
+    }
+    
+    
+    // Object / group drag functions. Need one for initial click, drag and release.
+    public void dragClick(MouseEvent event) {
+    	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
+			Node node = (Node) event.getTarget();
+			if(node.getParent() instanceof Group) node = node.getParent();
+			
+			context.storedx = node.getTranslateX() - event.getSceneX();
+			context.storedy = node.getTranslateX() - event.getSceneY();
+    	}
+    }
+    
+    public void dragDrag(MouseEvent event) {
+    	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
+			Node node = (Node) event.getTarget();
+			if(node.getParent() instanceof Group) node = node.getParent();
+			
+			node.setTranslateX(event.getSceneX() + context.storedx);
+			node.setTranslateY(event.getSceneY() + context.storedy);
+    	}
+    }
+    
+    public void dragRelease(MouseEvent event) {
+    	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
+			context.storedx = -1;
+			context.storedy = -1;
     	}
     }
 }

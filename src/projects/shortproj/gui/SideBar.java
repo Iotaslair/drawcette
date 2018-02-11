@@ -78,6 +78,12 @@ public final class SideBar extends VBox {
         tool7.setUserData("drag");
         tool7.setOnAction(getContextClear());
         
+        ToggleButton tool10 = new ToggleButton("Rotate");
+        tool10.setToggleGroup(group1);
+        tool10.setPrefSize(60, 25);
+        tool10.setUserData("rotate");
+        tool10.setOnAction(getContextClear());
+        
         Label toolsLabel4 = new Label("Groups");
         toolsLabel4.setTextFill(Color.WHITE);
         
@@ -96,7 +102,7 @@ public final class SideBar extends VBox {
         // Add all elements to the toolbar
         this.getChildren().addAll(toolsLabel1, tool1, tool2, tool3, 
         		toolsLabel2, tool4, tool5, tool6, toolsLabel3, tool7, 
-        		toolsLabel4, tool8, tool9);
+        		tool10, toolsLabel4, tool8, tool9);
         
 	}
 	
