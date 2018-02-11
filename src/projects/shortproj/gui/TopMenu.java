@@ -124,7 +124,10 @@ public final class TopMenu extends MenuBar {
         //Place where the user wants the file saved to
         File outputFile = fileChooser.showSaveDialog(primaryStage);
 
-        WritableImage snapshot = pane.getChildren().snapshot(new SnapshotParameters(),null);
+        //makes a writable image which takes a picture of whats in the drawing space
+        //                                                        Looking for height and width of stuff
+        //                                                        or get the right scene thing
+        WritableImage snapshot = primaryStage.getScene().snapshot(new SnapshotParameters(),null);
         ImageView iv1 = new ImageView(snapshot);
         /*if (outputFile != null)
         {
@@ -132,11 +135,10 @@ public final class TopMenu extends MenuBar {
             
         	try
             {
-                ImageIO.write(SwingFXUtils.fromFXImage( IMAGE OBJECT), null),"png",WHERE TO WRITE TO);
+                ImageIO.write(SwingFXUtils.fromFXImage(IMAGE OBJECT), null),"png", outputFile;
+                              or IMAGE OBJECT,"png", outputFile
             }
-            catch (IOException ex)
-            {
-                throw new RuntimeException(ex);
+            catch (IOException ex){
             }
             
         }*/
