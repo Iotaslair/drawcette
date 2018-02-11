@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javafx.scene.image.WritableImage;
+import javafx.scene.SnapshotParameters;
 
 import projects.shortproj.util.Context;
 
@@ -47,7 +49,7 @@ public final class TopMenu extends MenuBar {
         onAction(saveMenu);
         saveMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle (ActionEvent e){
-                save(context.stage);
+                save(context.stage, surface);
             }
 
         });
@@ -96,30 +98,45 @@ public final class TopMenu extends MenuBar {
     }
 
 
-    public void save(Stage primaryStage)
+    public void save(Stage primaryStage, DrawingSurface pane)
     {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
         System.out.println("Opened save function");
 
+        //sets a default directory to save pictures
         File defaultSaveLocation = new File(System.getProperty("user.home"),".gui/SavedPictures");
         if (!defaultSaveLocation.exists())
         {
             defaultSaveLocation.mkdirs();
         }
-
         fileChooser.setInitialDirectory(defaultSaveLocation);
 
-        File file = fileChooser.showSaveDialog(primaryStage);
-        /*if (file != null)
+        //Extension stuff
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("All Files", "*.*"),
+            new FileChooser.ExtensionFilter("All Image Files", "*.jpg","*.jpeg","*.jpe", "*.png" ),
+            new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
+            new FileChooser.ExtensionFilter("PNG", "*.png"),
+            new FileChooser.ExtensionFilter("Scalable Vector Graphics", "*.SVG")
+        );
+
+        //Place where the user wants the file saved to
+        File outputFile = fileChooser.showSaveDialog(primaryStage);
+
+        WritableImage snapshot = pane.getChildren().snapshot(new SnapshotParameters(),null);
+        ImageView iv1 = new ImageView(snapshot);
+        /*if (outputFile != null)
         {
         	System.out.println("Trying to save!");
             
-        	try{
-                ImageIO.write(SwingFXUtils.fromFXImage(pic.getImage(), null),"png",file);
+        	try
+            {
+                ImageIO.write(SwingFXUtils.fromFXImage( IMAGE OBJECT), null),"png",WHERE TO WRITE TO);
             }
-            catch (IOException ex){
-                System.out.println(ex.getMessage());
+            catch (IOException ex)
+            {
+                throw new RuntimeException(ex);
             }
             
         }*/
