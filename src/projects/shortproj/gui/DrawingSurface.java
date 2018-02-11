@@ -1,6 +1,7 @@
 package projects.shortproj.gui;
 
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -31,11 +32,14 @@ public class DrawingSurface extends Pane {
                 			 	 	break;
                 	case "drag": 	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
                 						Node node = (Node) event.getTarget();
+                						if(node.getParent() instanceof Group) node = node.getParent();
                 						
                 						context.storedx = node.getTranslateX() - event.getSceneX();
                 						context.storedy = node.getTranslateX() - event.getSceneY();
                 	}
-                				 break;
+                				 	break;
+                	case "group":	newGroup(event);
+                					break;
                 	default:     System.out.println("Don't know what to do with this click.");
                 				 break;
                 }
@@ -51,6 +55,7 @@ public class DrawingSurface extends Pane {
         		switch (depressedButton) {
         			case "drag":	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
         								Node node = (Node) event.getTarget();
+                						if(node.getParent() instanceof Group) node = node.getParent();
         								
         								node.setTranslateX(event.getSceneX() + context.storedx);
         								node.setTranslateY(event.getSceneY() + context.storedy);
@@ -104,5 +109,21 @@ public class DrawingSurface extends Pane {
             context.storedx = -1;
             context.storedy = -1;
         }
+    }
+    
+    /* Function that given successive mouse clicks adds nodes to
+     *  a new group.
+     */
+    public void newGroup(MouseEvent event) {
+    	if (context.firstClick || context.storedGroup == null) {
+    		context.storedGroup = new Group();
+    		this.getChildren().add(context.storedGroup);
+    		context.firstClick = false;
+    	}
+    	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
+    		Node node = (Node) event.getTarget();
+    		context.storedGroup.getChildren().add(node);
+    		System.out.println("Added a Node to a Group");
+    	}
     }
 }
