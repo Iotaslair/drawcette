@@ -9,8 +9,11 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -19,7 +22,7 @@ import projects.shortproj.util.Context;
 
 public final class TopMenu extends MenuBar {
 
-	public TopMenu(Context context) {     
+	public TopMenu(Context context, DrawingSurface surface) {     
         // Create menus
         Menu newMenu = new Menu("New");
         Menu saveMenu = new Menu("Save");
@@ -37,7 +40,7 @@ public final class TopMenu extends MenuBar {
         onAction(loadMenu);
         loadMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                load(context.stage);
+                load(context.stage, surface);
             }
         });
 
@@ -61,40 +64,69 @@ public final class TopMenu extends MenuBar {
         menu.addEventHandler(Menu.ON_SHOWING, event -> menu.fire());
     }
     
-    // Opens up file opener, need to find a way to display what is opened
-    public void load(Stage primaryStage) {
+    // Opens up file opener and displays image
+    public void load(Stage primaryStage, DrawingSurface pane) {
+        //makes a object that opens files
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-
+        //sets title of said object
+        fileChooser.setTitle("Open File");
+        
         //allows for the user to filter between different types of files
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("All Files", "*.*"),
+                new FileChooser.ExtensionFilter("All Image Files", "*.jpg","*.jpeg","*.jpe", "*.png" ),
                 new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
                 new FileChooser.ExtensionFilter("PNG", "*.png")
             );
-        //opens up the file
-        fileChooser.showOpenDialog(primaryStage);
+
+
+        //opens up the file viewer and sets the file chosen to 'file'
+        File file = fileChooser.showOpenDialog(pane.getScene().getWindow());
+        //converts that file to an Image
+        Image image = new Image(file.toURI().toString());
+        //converts that image to ImageView (Actually lets the image be seen for some reason
+        //thanks for making that clear javafx :) )
+        ImageView iv1 = new ImageView(image);
+        //makes sure a file is selected
+        if (file != null)
+        {
+            //adds image to the canvas
+            pane.getChildren().add(iv1);
+        }
     }
+
+
+
+
+
+
 
     public void save(Stage primaryStage)
     {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
+        System.out.println("Opened save function");
 
-        File file = fileChooser.showOpenDialog(primaryStage);
-        if (file != null)
+        File defaultSaveLocation = new File(System.getProperty("user.home"),".gui/SavedPictures");
+        if (!defaultSaveLocation.exists())
+        {
+            defaultSaveLocation.mkdirs();
+        }
+
+        fileChooser.setInitialDirectory(defaultSaveLocation);
+
+        File file = fileChooser.showSaveDialog(primaryStage);
+        /*if (file != null)
         {
         	System.out.println("Trying to save!");
-           /* 
-        	try
-            {
+            
+        	try{
                 ImageIO.write(SwingFXUtils.fromFXImage(pic.getImage(), null),"png",file);
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex){
                 System.out.println(ex.getMessage());
             }
-            */
-        }
+            
+        }*/
     }
 }

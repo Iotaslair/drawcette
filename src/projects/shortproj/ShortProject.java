@@ -21,10 +21,10 @@ public class ShortProject extends Application {
 
         context = new Context(primaryStage);
         
-        MenuBar menuBar = new TopMenu(context);
         SideBar menuBox = new SideBar(context);
         colorPicker = new ColorBar(context);
-        Pane surface = new DrawingSurface(menuBox, colorPicker, context);
+        DrawingSurface surface = new DrawingSurface(menuBox, colorPicker, context);
+        MenuBar menuBar = new TopMenu(context, surface);
         
         // Set both panes' positions on main pane
         root.setTop(menuBar);
