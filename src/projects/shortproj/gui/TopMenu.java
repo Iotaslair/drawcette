@@ -96,11 +96,6 @@ public final class TopMenu extends MenuBar {
     }
 
 
-
-
-
-
-
     public void save(Stage primaryStage)
     {
         FileChooser fileChooser = new FileChooser();

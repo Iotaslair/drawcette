@@ -6,8 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
-import projects.shortproj.util.*;
-import projects.shortproj.gui.*;
+import projects.shortproj.util.Context;
 
 public class DrawingSurface extends Pane {
 
@@ -20,7 +19,7 @@ public class DrawingSurface extends Pane {
 		this.colorBar = colorBar;
 		this.context = context;
 		
-		// Add an event handler to the pane and make it draw lines for now.
+		// Add an event handler to the pane that checks what button is pressed for what to do on mouseclick.
         this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -28,12 +27,51 @@ public class DrawingSurface extends Pane {
                 String depressedButton = sideBar.getDepressedButtonGroup1();
                 
                 switch (depressedButton) {
-                	case "line": drawLine(event);
-                			 	 break;
+                	case "line": 	drawLine(event);
+                			 	 	break;
+                	case "drag": 	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
+                						Node node = (Node) event.getTarget();
+                						
+                						context.storedx = node.getTranslateX() - event.getSceneX();
+                						context.storedy = node.getTranslateX() - event.getSceneY();
+                	}
+                				 break;
                 	default:     System.out.println("Don't know what to do with this click.");
                 				 break;
                 }
             }
+        });
+        
+        // Add and event handler to handle drags.
+        this.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+        	@Override
+        	public void handle(MouseEvent event) {
+        		String depressedButton = sideBar.getDepressedButtonGroup1();
+        		
+        		switch (depressedButton) {
+        			case "drag":	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
+        								Node node = (Node) event.getTarget();
+        								
+        								node.setTranslateX(event.getSceneX() + context.storedx);
+        								node.setTranslateY(event.getSceneY() + context.storedy);
+        			}
+        		}
+        	}
+        });
+        
+        // Add an event handler for mouse release.
+        this.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+        	@Override
+        	public void handle(MouseEvent event) {
+        		String depressedButton = sideBar.getDepressedButtonGroup1();
+        		
+        		switch (depressedButton) {
+        			case "drag":	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
+        								context.storedx = -1;
+        								context.storedy = -1;
+        			}
+        		}
+        	}
         });
 		
 	}
