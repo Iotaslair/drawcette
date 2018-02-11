@@ -18,6 +18,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javafx.scene.image.WritableImage;
 import javafx.scene.SnapshotParameters;
+import java.awt.image.BufferedImage;
 
 import projects.shortproj.util.Context;
 
@@ -127,20 +128,22 @@ public final class TopMenu extends MenuBar {
         //makes a writable image which takes a picture of whats in the drawing space
         //                                                        Looking for height and width of stuff
         //                                                        or get the right scene thing
-        WritableImage snapshot = primaryStage.getScene().snapshot(new SnapshotParameters(),null);
-        ImageView iv1 = new ImageView(snapshot);
-        /*if (outputFile != null)
+        WritableImage snapshot = pane.snapshot(new SnapshotParameters(),null);
+        BufferedImage bImage;
+        bImage = javafx.embed.swing.SwingFXUtils.fromFXImage(snapshot)
+        if (outputFile != null)
         {
         	System.out.println("Trying to save!");
-            
         	try
             {
-                ImageIO.write(SwingFXUtils.fromFXImage(IMAGE OBJECT), null),"png", outputFile;
-                              or IMAGE OBJECT,"png", outputFile
+                ImageIO.write(SwingFXUtils.fromFXImage(iv1), null),"png", outputFile);
+                             // or writableimage object (snapshot)
+                             // or IMAGE OBJECT,"png", outputFile
             }
+            
             catch (IOException ex){
             }
             
-        }*/
+        }
     }
 }
