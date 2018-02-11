@@ -104,6 +104,7 @@ public class DrawingSurface extends Pane {
             Line line = new Line();
             Paint c = colorBar.getColor();
             line.setStroke(c);
+            line.setStrokeWidth(2);
             
             line.setStartX(context.storedx);
             line.setStartY(context.storedy);
