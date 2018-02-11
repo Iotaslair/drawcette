@@ -77,9 +77,10 @@ public final class TopMenu extends MenuBar {
         //allows for the user to filter between different types of files
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("All Files", "*.*"),
-                new FileChooser.ExtensionFilter("All Image Files", "*.jpg","*.jpeg","*.jpe", "*.png" ),
+                new FileChooser.ExtensionFilter("All Image Files", "*.jpg","*.jpeg","*.jpe", "*.png", "*.svg" ),
                 new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
-                new FileChooser.ExtensionFilter("PNG", "*.png")
+                new FileChooser.ExtensionFilter("PNG", "*.png"),
+                new FileChooser.ExtensionFilter("Scalable Vector Graphics", "*.svg")
             );
 
 
@@ -120,7 +121,7 @@ public final class TopMenu extends MenuBar {
             new FileChooser.ExtensionFilter("All Image Files", "*.jpg","*.jpeg","*.jpe", "*.png" ),
             new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
             new FileChooser.ExtensionFilter("PNG", "*.png"),
-            new FileChooser.ExtensionFilter("Scalable Vector Graphics", "*.SVG")
+            new FileChooser.ExtensionFilter("Scalable Vector Graphics", "*.svg")
         );
 
         //Place where the user wants the file saved to
@@ -138,10 +139,7 @@ public final class TopMenu extends MenuBar {
         	try
             {
                 ImageIO.write(bImage, "png", outputFile);
-                             // or writableimage object (snapshot)
-                             // or IMAGE OBJECT,"png", outputFile
             }
-            
             catch (IOException ex){
             }
             
