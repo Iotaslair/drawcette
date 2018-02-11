@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import projects.shortproj.util.Context;
 import java.lang.Math;
 
@@ -133,9 +134,18 @@ public class DrawingSurface extends Pane {
     	}
     }
     
+    
     public void removeFromGroup(MouseEvent event) {
     	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
-    		this.getChildren().add((Node) event.getTarget());
+    		Node node = (Node) event.getTarget();
+    		
+    		// Move the group transforms down onto the removed element.
+    		node.getTransforms().addAll(node.getParent().getTransforms());
+    		this.getChildren().add(node);
+    		
+    		// If group is now empty delete it.
+    		if(node.getParent().getChildrenUnmodifiable().isEmpty()) this.getChildren().remove(node.getParent());
+    		
     		System.out.println("Removed a Node from a group.");
     	}
     }
@@ -165,7 +175,7 @@ public class DrawingSurface extends Pane {
     public void rotateMove(MouseEvent event) {
     	if(context.clickCount == 2 && context.transform != null && context.transform instanceof Rotate) {
     		Rotate rotate = (Rotate) context.transform;
-    		double angle = Math.toDegrees(Math.atan2(-context.storedy + event.getSceneY(), context.storedx - event.getSceneX()));
+    		double angle = Math.toDegrees(Math.atan2(context.storedy - event.getSceneY(), context.storedx - event.getSceneX()));
     		angle = (angle < 0) ? (360d + angle) : angle;
     		rotate.setAngle(angle);
     	}
@@ -178,6 +188,8 @@ public class DrawingSurface extends Pane {
 			Node node = (Node) event.getTarget();
 			if(node.getParent() instanceof Group) node = node.getParent();
 			
+			context.transform = new Translate();
+			node.getTransforms().add(context.transform);
 			context.storedx = node.getTranslateX() - event.getSceneX();
 			context.storedy = node.getTranslateX() - event.getSceneY();
     	}
@@ -187,9 +199,10 @@ public class DrawingSurface extends Pane {
     	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
 			Node node = (Node) event.getTarget();
 			if(node.getParent() instanceof Group) node = node.getParent();
+			Translate transform = (Translate) context.transform;
 			
-			node.setTranslateX(event.getSceneX() + context.storedx);
-			node.setTranslateY(event.getSceneY() + context.storedy);
+			transform.setX(event.getSceneX() + context.storedx);
+			transform.setY(event.getSceneY() + context.storedy);
     	}
     }
     
@@ -197,6 +210,8 @@ public class DrawingSurface extends Pane {
     	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
 			context.storedx = -1;
 			context.storedy = -1;
+			
+			context.transform = null;
     	}
     }
 }
