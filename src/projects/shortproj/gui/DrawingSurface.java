@@ -122,7 +122,8 @@ public class DrawingSurface extends Pane {
     		this.getChildren().add(context.storedGroup);
     		context.firstClick = false;
     	}
-    	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
+    	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface) 
+    			&& !context.storedGroup.getChildren().contains(event.getTarget())) {
     		Node node = (Node) event.getTarget();
     		context.storedGroup.getChildren().add(node);
     		System.out.println("Added a Node to a Group!");
