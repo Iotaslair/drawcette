@@ -104,6 +104,7 @@ public final class TopMenu extends MenuBar {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
         System.out.println("Opened save function");
+        BufferedImage bufferedImage = new BufferedImage(550, 400, BufferedImage.TYPE_INT_ARGB);
 
         //sets a default directory to save pictures
         File defaultSaveLocation = new File(System.getProperty("user.home"),".gui/SavedPictures");
@@ -130,13 +131,13 @@ public final class TopMenu extends MenuBar {
         //                                                        or get the right scene thing
         WritableImage snapshot = pane.snapshot(new SnapshotParameters(),null);
         BufferedImage bImage;
-        bImage = javafx.embed.swing.SwingFXUtils.fromFXImage(snapshot)
+        bImage = javafx.embed.swing.SwingFXUtils.fromFXImage(snapshot,bufferedImage);
         if (outputFile != null)
         {
         	System.out.println("Trying to save!");
         	try
             {
-                ImageIO.write(SwingFXUtils.fromFXImage(iv1), null),"png", outputFile);
+                ImageIO.write(bImage, "png", outputFile);
                              // or writableimage object (snapshot)
                              // or IMAGE OBJECT,"png", outputFile
             }
