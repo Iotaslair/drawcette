@@ -78,16 +78,25 @@ public final class SideBar extends VBox {
         tool7.setUserData("drag");
         tool7.setOnAction(getContextClear());
         
-        ToggleButton tool8 = new ToggleButton("New Group");
+        Label toolsLabel4 = new Label("Groups");
+        toolsLabel4.setTextFill(Color.WHITE);
+        
+        ToggleButton tool8 = new ToggleButton("New");
         tool8.setToggleGroup(group1);
         tool8.setPrefSize(60, 25);
         tool8.setUserData("group");
         tool8.setOnAction(getContextClear());
         
+        ToggleButton tool9 = new ToggleButton("Remove");
+        tool9.setToggleGroup(group1);
+        tool9.setPrefSize(60, 25);
+        tool9.setUserData("remove");
+        tool9.setOnAction(getContextClear());
+        
         // Add all elements to the toolbar
         this.getChildren().addAll(toolsLabel1, tool1, tool2, tool3, 
         		toolsLabel2, tool4, tool5, tool6, toolsLabel3, tool7, 
-        		tool8);
+        		toolsLabel4, tool8, tool9);
         
 	}
 	

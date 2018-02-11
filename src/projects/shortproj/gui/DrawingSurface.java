@@ -40,6 +40,8 @@ public class DrawingSurface extends Pane {
                 				 	break;
                 	case "group":	newGroup(event);
                 					break;
+                	case "remove":	removeFromGroup(event);
+                					break;
                 	default:     System.out.println("Don't know what to do with this click.");
                 				 break;
                 }
@@ -123,7 +125,14 @@ public class DrawingSurface extends Pane {
     	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
     		Node node = (Node) event.getTarget();
     		context.storedGroup.getChildren().add(node);
-    		System.out.println("Added a Node to a Group");
+    		System.out.println("Added a Node to a Group!");
+    	}
+    }
+    
+    public void removeFromGroup(MouseEvent event) {
+    	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
+    		this.getChildren().add((Node) event.getTarget());
+    		System.out.println("Removed a Node from a group.");
     	}
     }
 }
