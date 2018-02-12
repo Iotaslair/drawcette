@@ -36,7 +36,7 @@ public class DrawingSurface extends Pane {
                 switch (depressedButton) {
                 	case "freehand": freeHandDraw(event);
                 					break;
-                	case "line": 	drawLine(event);
+                	case "line": 	lineClick(event);
                 			 	 	break;
                 	case "drag": 	dragClick(event);
                 				 	break;
@@ -91,6 +91,8 @@ public class DrawingSurface extends Pane {
         		switch (depressedButton) {
         			case "rotate":	rotateMove(event);
         							break;
+        			case "line":	lineMove(event);
+        							break;
         		}
         	}
         });
@@ -117,31 +119,41 @@ public class DrawingSurface extends Pane {
 	/*  Function that given a mouse even and a surface advances 
      *  the line drawing process on that surface by one click.
      */
-    public void drawLine(MouseEvent event) {
-        System.out.println(event.getX() + ", " + event.getY());
+    public void lineClick(MouseEvent event) {
         if (context.clickCount == 0){
             context.clickCount++;
-            context.storedx = event.getX();
-            context.storedy = event.getY();
-        }
-        else {
-            context.clickCount = 0;
-            // Make line
+            
             Line line = new Line();
-            Paint color = context.colorPicker.getColor();
-            line.setStroke(color);
+            
+            line.setStroke(context.colorPicker.getColor());
             line.setStrokeWidth(context.menuBox.getThiccness());
             
-            line.setStartX(context.storedx);
-            line.setStartY(context.storedy);
-            line.setEndX(event.getX());
-            line.setEndY(event.getY());
+            line.setStartX(event.getX());
+            line.setStartY(event.getY());
+            
+    		line.setEndX(event.getX());
+    		line.setEndY(event.getY());
             
             this.getChildren().add(line);
-                    
+            context.storedNode = line;
+        }
+        else {
+        	// Reset the context
+            context.clickCount = 0;
+
+            context.storedNode = null;
+                                
             context.storedx = -1;
             context.storedy = -1;
         }
+    }
+    
+    public void lineMove(MouseEvent event) {
+    	if (context.clickCount == 1) {
+    		Line line = (Line) context.storedNode;
+    		line.setEndX(event.getX());
+    		line.setEndY(event.getY());
+    	}
     }
     
     /* Function that given successive mouse clicks adds nodes to
