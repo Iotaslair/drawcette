@@ -1,12 +1,10 @@
 package projects.shortproj;
 
-import projects.shortproj.gui.*;
 import projects.shortproj.util.Context;
 
 import javafx.application.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 public class ShortProject extends Application {
@@ -28,7 +26,7 @@ public class ShortProject extends Application {
         
         Scene scene = new Scene(root, 1200, 800);
                 
-        primaryStage.setTitle("Photopoop v.0.0.01");
+        primaryStage.setTitle("Photopoop v.0.0.1");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

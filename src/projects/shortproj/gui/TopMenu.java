@@ -1,7 +1,6 @@
 package projects.shortproj.gui;
 
 import javafx.application.Platform;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -11,9 +10,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javafx.scene.image.WritableImage;
@@ -21,7 +18,6 @@ import javafx.scene.SnapshotParameters;
 import java.awt.image.BufferedImage;
 
 import projects.shortproj.util.Context;
-
 
 public final class TopMenu extends MenuBar {
 
@@ -139,8 +135,8 @@ public final class TopMenu extends MenuBar {
                 ImageIO.write(bImage, "png", outputFile);
             }
             catch (IOException ex){
-            }
-            
+            	System.out.println("Exception!");
+            }  
         }
     }
 }

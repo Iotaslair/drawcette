@@ -10,14 +10,18 @@ import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import projects.shortproj.util.Context;
+import projects.shortproj.util.ElementGroup;
+
 import java.lang.Math;
 
 public class DrawingSurface extends Pane {
 
 	private Context context;
+	private int groupID, prevGroupID;
 	
 	public DrawingSurface(Context c) {
 		this.context = c;
+		prevGroupID = groupID = -1;
 		
 		// Add an event handler to the pane that checks what button is pressed for what to do on mouseclick.
         this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -100,8 +104,8 @@ public class DrawingSurface extends Pane {
             context.clickCount = 0;
             // Make line
             Line line = new Line();
-            Paint c = context.colorPicker.getColor();
-            line.setStroke(c);
+            Paint color = context.colorPicker.getColor();
+            line.setStroke(color);
             line.setStrokeWidth(2);
             
             line.setStartX(context.storedx);
@@ -122,6 +126,7 @@ public class DrawingSurface extends Pane {
     public void newGroup(MouseEvent event) {
     	if (context.clickCount == 0 || context.storedGroup == null) {
     		context.storedGroup = new Group();
+    		groupID++;
     		this.getChildren().add(context.storedGroup);
     		context.clickCount++;
     	}
@@ -130,6 +135,14 @@ public class DrawingSurface extends Pane {
     		Node node = (Node) event.getTarget();
     		context.storedGroup.getChildren().add(node);
     		System.out.println("Added a Node to a Group!");
+    		// add node to group collection
+        	if (groupID == prevGroupID) {
+        		//context.sidebarRight.items.get(groupID).getGroup().getChildren().add(node);
+        	}
+        	else {
+        		context.sidebarRight.items.add(new ElementGroup(context.storedGroup, "Group " + groupID));
+        		prevGroupID = groupID;
+        	}
     	}
     }
     
