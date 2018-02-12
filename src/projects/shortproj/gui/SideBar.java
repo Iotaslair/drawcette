@@ -114,7 +114,8 @@ public final class SideBar extends VBox {
 	
 	// Returns the string associated with the depressed button of group 1.
 	public String getDepressedButtonGroup1() {
-		return (String) group1.getSelectedToggle().getUserData();
+		String depressedButton = (group1.getSelectedToggle() == null) ? "None" : (String) group1.getSelectedToggle().getUserData();
+		return depressedButton;
 	}
 	
 	private EventHandler<ActionEvent> getContextClear() {
