@@ -33,7 +33,7 @@ public final class SideBarRight extends VBox {
         ToggleButton btnNewGroup = new ToggleButton("New");
         btnNewGroup.setToggleGroup(context.toolGroup);
         btnNewGroup.setPrefSize(60, 25);
-        btnNewGroup.setUserData("group");
+        btnNewGroup.setUserData("new_group");
         btnNewGroup.setOnAction(getContextClear());
         
         ToggleButton btnRemoveGroup = new ToggleButton("Remove");

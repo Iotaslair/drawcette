@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
@@ -43,8 +44,8 @@ public class DrawingSurface extends Pane {
                 			 	 	break;
                 	case "drag": 	dragClick(event);
                 				 	break;
-                	case "group":	newGroup(event);
-                					break;
+                	case "new_group":	newGroupClick(event);
+                						break;
                 	case "rotate":	rotateClick(event);
                 					break;
                 	case "remove":	removeFromGroup(event);
@@ -98,6 +99,8 @@ public class DrawingSurface extends Pane {
         							break;
         			case "line":	lineMove(event);
         							break;
+        			case "new_group":	newGroupMove(event);
+        								break;
         		}
         	}
         });
@@ -165,7 +168,7 @@ public class DrawingSurface extends Pane {
      *  a new group.
      */
     public void newGroup(MouseEvent event) {
-    	if (context.clickCount == 0 || context.storedGroup == null) {
+    	if (context.clickCount == 0) {
     		context.storedGroup = new Group();
     		groupID++;
     		this.getChildren().add(context.storedGroup);
@@ -186,6 +189,71 @@ public class DrawingSurface extends Pane {
     	}
     }
     
+    public void newGroupClick(MouseEvent event) {
+    	// Create highlight box and store original point.
+    	if (context.clickCount == 0) {
+    		context.clickCount = 1;
+    		
+    		Rectangle highlightBox = new Rectangle();
+    		this.getChildren().add(highlightBox);
+    		highlightBox.setX(event.getX());
+    		highlightBox.setY(event.getY());
+    		highlightBox.setFill(new Color(.1, .1, .1, .1));
+    		highlightBox.setStrokeWidth(1);    		
+    		
+    		context.storedx = event.getX();
+    		context.storedy = event.getY();
+    		context.storedNode = highlightBox;
+    		
+    	// Create group of elements that were contained in the highlight box.
+    	} else if (context.clickCount == 1) {
+    		context.storedGroup = new Group();
+    		this.getChildren().add(context.storedGroup);
+    		context.sidebarRight.items.add(new ElementGroup(context.storedGroup, "Group " + ++groupID));
+    		
+    		// Check collisions and add things to group.
+    		Node[] list = new Node[this.getChildren().size()];
+    		int i = 0;
+    		for (Node node : this.getChildren()) {
+    			if (node instanceof Group || node.equals(context.storedNode)) continue;
+    			if (node.getBoundsInParent().intersects(context.storedNode.getBoundsInParent())) {
+    				list[i++] = node;
+    			}
+    		}
+    		for (Node node : list) {
+    			if (node != null)
+    				context.storedGroup.getChildren().add(node);
+    		}
+    		
+    		// Reset the context
+    		this.getChildren().remove(context.storedNode);
+    		context.storedNode = null;
+    		context.clickCount = 0;
+    		context.storedx = -1;
+    		context.storedy = -1;
+    	}
+    }
+    
+    public void newGroupMove(MouseEvent event) {
+    	if (context.clickCount == 1 && context.storedNode instanceof Rectangle) {
+    		Rectangle rectangle = (Rectangle) context.storedNode;
+    		double deltax = event.getX() - context.storedx;
+    		double deltay = event.getY() - context.storedy;
+    		
+    		// Handle when the user moves the cursor above or to the left of the origonal point.
+    		if (deltax < 0) {
+    			rectangle.setX(event.getX());
+    			rectangle.setWidth(-deltax);
+    		} else
+        		rectangle.setWidth(deltax);
+    		
+    		if (deltay < 0) {
+    			rectangle.setY(event.getY());
+    			rectangle.setHeight(-deltay);
+    		} else
+        		rectangle.setHeight(deltay);
+    	}
+    }
     
     public void removeFromGroup(MouseEvent event) {
     	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
