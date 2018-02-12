@@ -3,6 +3,7 @@ package projects.shortproj.util;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 import projects.shortproj.gui.ColorBar;
@@ -21,6 +22,7 @@ public class Context {
 	public SideBarRight sidebarRight;
 	public DrawingSurface surface;
 	public MenuBar menuBar;
+	public ToggleGroup toolGroup = new ToggleGroup();
 
 	public double storedx;
 	public double storedy;
@@ -36,7 +38,7 @@ public class Context {
         colorPicker = new ColorBar(this);
         surface = new DrawingSurface(this);
         menuBar = new TopMenu(this);
-		
+        
 		storedx = 0;
 		storedy = 0;
 		

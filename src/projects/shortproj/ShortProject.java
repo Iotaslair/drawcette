@@ -10,7 +10,7 @@ import javafx.scene.layout.*;
 public class ShortProject extends Application {
 	
     private Context context;
-	
+
     @Override
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
