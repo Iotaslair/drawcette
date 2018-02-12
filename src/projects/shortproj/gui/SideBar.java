@@ -72,6 +72,12 @@ public final class SideBar extends VBox {
         Label toolsLabel3 = new Label("Manipulate");
         toolsLabel3.setTextFill(Color.WHITE);
         
+        ToggleButton tool11 = new ToggleButton("Delete");
+        tool11.setToggleGroup(group1);
+        tool11.setPrefSize(60,25);
+        tool11.setUserData("delete");
+        tool11.setOnAction(getContextClear());
+
         ToggleButton tool7 = new ToggleButton("Drag");
         tool7.setToggleGroup(group1);
         tool7.setPrefSize(60, 25);
@@ -101,14 +107,15 @@ public final class SideBar extends VBox {
         
         // Add all elements to the toolbar
         this.getChildren().addAll(toolsLabel1, tool1, tool2, tool3, 
-        		toolsLabel2, tool4, tool5, tool6, toolsLabel3, tool7, 
-        		tool10, toolsLabel4, tool8, tool9);
+        		toolsLabel2, tool4, tool5, tool6, toolsLabel3,
+                        tool11, tool7, tool10, toolsLabel4, tool8, tool9);
         
 	}
 	
 	// Returns the string associated with the depressed button of group 1.
 	public String getDepressedButtonGroup1() {
-		return (String) group1.getSelectedToggle().getUserData();
+		String depressedButton = (group1.getSelectedToggle() == null) ? "None" : (String) group1.getSelectedToggle().getUserData();
+		return depressedButton;
 	}
 	
 	private EventHandler<ActionEvent> getContextClear() {
