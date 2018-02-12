@@ -25,7 +25,7 @@ import projects.shortproj.util.Context;
 
 public final class TopMenu extends MenuBar {
 
-	public TopMenu(Context context, DrawingSurface surface) {     
+	public TopMenu(Context context) {     
         // Create menus
         Menu newMenu = new Menu("New");
         Menu saveMenu = new Menu("Save");
@@ -43,14 +43,14 @@ public final class TopMenu extends MenuBar {
         onAction(loadMenu);
         loadMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                load(context.stage, surface);
+                load(context.stage, context.surface);
             }
         });
 
         onAction(saveMenu);
         saveMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle (ActionEvent e){
-                save(context.stage, surface);
+                save(context.stage, context.surface);
             }
 
         });

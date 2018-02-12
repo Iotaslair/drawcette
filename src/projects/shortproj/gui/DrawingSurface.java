@@ -14,21 +14,17 @@ import java.lang.Math;
 
 public class DrawingSurface extends Pane {
 
-	private SideBar sideBar;
-	private ColorBar colorBar;
 	private Context context;
 	
-	public DrawingSurface(SideBar sideBar, ColorBar colorBar, Context context) {
-		this.sideBar = sideBar;
-		this.colorBar = colorBar;
-		this.context = context;
+	public DrawingSurface(Context c) {
+		this.context = c;
 		
 		// Add an event handler to the pane that checks what button is pressed for what to do on mouseclick.
         this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 // Asks sidebar what button is down to call appropriate function on surface.
-                String depressedButton = sideBar.getDepressedButtonGroup1();
+                String depressedButton = context.menuBox.getDepressedButtonGroup1();
                 
                 switch (depressedButton) {
                 	case "line": 	drawLine(event);
@@ -53,7 +49,7 @@ public class DrawingSurface extends Pane {
         this.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
         	@Override
         	public void handle(MouseEvent event) {
-        		String depressedButton = sideBar.getDepressedButtonGroup1();
+        		String depressedButton = context.menuBox.getDepressedButtonGroup1();
         		
         		switch (depressedButton) {
         			case "drag":	dragDrag(event);
@@ -66,7 +62,7 @@ public class DrawingSurface extends Pane {
         this.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
         	@Override
         	public void handle(MouseEvent event) {
-        		String depressedButton = sideBar.getDepressedButtonGroup1();
+        		String depressedButton = context.menuBox.getDepressedButtonGroup1();
         		
         		switch (depressedButton) {
         			case "drag":	dragRelease(event);
@@ -79,7 +75,7 @@ public class DrawingSurface extends Pane {
         this.addEventFilter(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
         	@Override
         	public void handle(MouseEvent event) {
-        		String depressedButton = sideBar.getDepressedButtonGroup1();
+        		String depressedButton = context.menuBox.getDepressedButtonGroup1();
         		
         		switch (depressedButton) {
         			case "rotate":	rotateMove(event);
@@ -104,7 +100,7 @@ public class DrawingSurface extends Pane {
             context.clickCount = 0;
             // Make line
             Line line = new Line();
-            Paint c = colorBar.getColor();
+            Paint c = context.colorPicker.getColor();
             line.setStroke(c);
             line.setStrokeWidth(2);
             
