@@ -69,8 +69,10 @@ public class DrawingSurface extends Pane {
         		switch (depressedButton) {
         			case "drag":	dragDrag(event);
         							break;
-        			case "freehand": freeHandDrawDrag(event);
-        							break;
+        			case "freehand":	freeHandDrawDrag(event);
+        								break;
+        			case "new_group":	newGroupDrag(event);
+        								break;
         		}
         	}
         });
@@ -84,6 +86,8 @@ public class DrawingSurface extends Pane {
         		switch (depressedButton) {
         			case "drag":	dragRelease(event);
         							break;
+        			case "new_group":	newGroupRelease(event);
+        								break;
         		}
         	}
         });
@@ -99,8 +103,6 @@ public class DrawingSurface extends Pane {
         							break;
         			case "line":	lineMove(event);
         							break;
-        			case "new_group":	newGroupMove(event);
-        								break;
         		}
         	}
         });
@@ -162,31 +164,9 @@ public class DrawingSurface extends Pane {
     	}
     }
     
-    /* Function that given successive mouse clicks adds nodes to
-     *  a new group.
-     */
-    public void newGroup(MouseEvent event) {
-    	if (context.clickCount == 0) {
-    		context.storedGroup = new Group();
-    		groupID++;
-    		this.getChildren().add(context.storedGroup);
-    		context.clickCount++;
-    	}
-    	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface) 
-    			&& !context.storedGroup.getChildren().contains(event.getTarget())) {
-    		Node node = (Node) event.getTarget();
-    		context.storedGroup.getChildren().add(node);
-    		System.out.println("Added a Node to a Group!");
-    		if (groupID == prevGroupID) {
-        		//context.sidebarRight.items.get(groupID).getGroup().getChildren().add(node);
-        	}
-        	else {
-        		context.sidebarRight.items.add(new ElementGroup(context.storedGroup, "Group " + groupID));
-        		prevGroupID = groupID;
-        	}
-    	}
-    }
-    
+    /* Function that create a selection box, and the nodes 
+     * found inside the box are added to a new group.
+     */  
     public void newGroupClick(MouseEvent event) {
     	// Create highlight box and store original point.
     	if (context.clickCount == 0) {
@@ -202,12 +182,13 @@ public class DrawingSurface extends Pane {
     		context.storedx = event.getX();
     		context.storedy = event.getY();
     		context.storedNode = highlightBox;
-    		
+    	}
+    }
+    
+    public void newGroupRelease(MouseEvent event) {
     	// Create group of elements that were contained in the highlight box.
-    	} else if (context.clickCount == 1) {
+    	if (context.clickCount == 1) {
     		context.storedGroup = new Group();
-    		this.getChildren().add(context.storedGroup);
-    		context.sidebarRight.items.add(new ElementGroup(context.storedGroup, "Group " + ++groupID));
     		
     		// Check collisions and add things to group.
     		Node[] list = new Node[this.getChildren().size()];
@@ -223,6 +204,12 @@ public class DrawingSurface extends Pane {
     				context.storedGroup.getChildren().add(node);
     		}
     		
+    		// Check to make sure the group is not empty before adding it as a group.
+    		if(context.storedGroup.getChildren().size() != 0) {
+        		this.getChildren().add(context.storedGroup);
+        		context.sidebarRight.items.add(new ElementGroup(context.storedGroup, "Group " + ++groupID));
+    		}
+    		
     		// Reset the context
     		this.getChildren().remove(context.storedNode);
     		context.storedNode = null;
@@ -232,7 +219,7 @@ public class DrawingSurface extends Pane {
     	}
     }
     
-    public void newGroupMove(MouseEvent event) {
+    public void newGroupDrag(MouseEvent event) {
     	if (context.clickCount == 1 && context.storedNode instanceof Rectangle) {
     		Rectangle rectangle = (Rectangle) context.storedNode;
     		double deltax = event.getX() - context.storedx;

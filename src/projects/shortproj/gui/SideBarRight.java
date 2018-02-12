@@ -6,12 +6,14 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import projects.shortproj.util.Context;
 import projects.shortproj.util.ElementGroup;
+import javafx.scene.input.MouseEvent;
 
 public final class SideBarRight extends VBox {
 	Context context;
@@ -48,9 +50,23 @@ public final class SideBarRight extends VBox {
         // List of groups
         Label groupListLabel = new Label("Groups");
         groupListLabel.setTextFill(Color.WHITE);
-
+        
         list.setPrefSize(150, 200);                
         list.setItems(items);
+        
+        MultipleSelectionModel<ElementGroup> model = list.getSelectionModel();
+        
+        list.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+            	for (ElementGroup group : items) {
+            		group.highlight();
+            		group.unHighlight();
+            	}
+            	if (model.getSelectedItem() != null)
+            		model.getSelectedItem().highlight();
+            }
+        });
         
         // Add list to sidebar
         this.getChildren().addAll(groupListLabel, list, btnPanel);
