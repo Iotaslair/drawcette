@@ -249,7 +249,7 @@ public class DrawingSurface extends Pane {
 			context.transform = null;
     	}
     }
-    //delete function (will allow for deletion of groups)
+    //delete function (Allows for deletion of groups)
     public void delete(MouseEvent event)
     {
         Node node = (Node) event.getTarget();
