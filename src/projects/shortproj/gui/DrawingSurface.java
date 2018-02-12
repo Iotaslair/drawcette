@@ -221,6 +221,7 @@ public class DrawingSurface extends Pane {
     public void delete(MouseEvent event)
     {
         Node node = (Node) event.getTarget();
-        this.getChildren().remove(node.getParent());
+        if(node.getParent() instanceof Group) node = node.getParent();
+        this.getChildren().remove(node);
     }
 }
