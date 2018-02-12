@@ -79,8 +79,7 @@ public final class TopMenu extends MenuBar {
                 new FileChooser.ExtensionFilter("All Files", "*.*"),
                 new FileChooser.ExtensionFilter("All Image Files", "*.jpg","*.jpeg","*.jpe", "*.png", "*.svg" ),
                 new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
-                new FileChooser.ExtensionFilter("PNG", "*.png"),
-                new FileChooser.ExtensionFilter("Scalable Vector Graphics", "*.svg")
+                new FileChooser.ExtensionFilter("PNG", "*.png")
             );
 
 
@@ -120,8 +119,7 @@ public final class TopMenu extends MenuBar {
             new FileChooser.ExtensionFilter("All Files", "*.*"),
             new FileChooser.ExtensionFilter("All Image Files", "*.jpg","*.jpeg","*.jpe", "*.png" ),
             new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
-            new FileChooser.ExtensionFilter("PNG", "*.png"),
-            new FileChooser.ExtensionFilter("Scalable Vector Graphics", "*.svg")
+            new FileChooser.ExtensionFilter("PNG", "*.png")
         );
 
         //Place where the user wants the file saved to
