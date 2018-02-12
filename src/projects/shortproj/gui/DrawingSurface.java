@@ -6,7 +6,10 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.LineTo;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import projects.shortproj.util.Context;
@@ -39,9 +42,13 @@ public class DrawingSurface extends Pane {
                 					break;
                     case "delete":  delete(event);
                                     break;
+                    case "brush1":  brush1(event);
+                                    break;
                 	default:     System.out.println("Don't know what to do with this click.");
                 				 break;
                 }
+
+                
             }
         });
         
@@ -213,11 +220,38 @@ public class DrawingSurface extends Pane {
 			context.transform = null;
     	}
     }
-    //delete function (will allow for deletion of groups)
+    //delete function (allows for deletion of groups)
     public void delete(MouseEvent event)
     {
+        //gets the object thats clicked on and stores it in node
         Node node = (Node) event.getTarget();
-        if(node.getParent() instanceof Group) node = node.getParent();
+        //if node has parents (part of a group) then get them else ignore
+        if(node.getParent() instanceof Group) 
+            node = node.getParent();
+        //removes the node
         this.getChildren().remove(node);
+    }
+
+    public void brush1(MouseEvent event)
+    {
+        System.out.println("In Brush1");
+        Path path = new Path();
+        path.setStrokeWidth(20);
+        path.setStroke(context.colorPicker.getColor());
+        
+        //Code for Drag mouse might not work
+        if (event.getEventType() == MouseEvent.MOUSE_PRESSED)
+        {
+            path.getElements().clear();
+            path.getElements().add(new MoveTo(event.getX(),event.getY()));
+            System.out.println("Mouse Pressed");
+        }
+        else if (event.getEventType() == MouseEvent.MOUSE_DRAGGED)
+        {
+            path.getElements().add(new LineTo(event.getX(),event.getY()));
+            System.out.println("Mouse Dragged");
+        }
+
+        this.getChildren().add(path);
     }
 }
