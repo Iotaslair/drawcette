@@ -6,12 +6,11 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.*;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import projects.shortproj.util.Context;
 import projects.shortproj.util.ElementGroup;
-
 import java.lang.Math;
 
 public class DrawingSurface extends Pane {
@@ -19,10 +18,14 @@ public class DrawingSurface extends Pane {
 	private Context context;
 	private int groupID;
 	
+	Group freeHand;
+	Path path;	
+	
 	public DrawingSurface(Context c) {
 		this.context = c;
 		groupID = -1;
-		
+		path = new Path();
+
 		// Add an event handler to the pane that checks what button is pressed for what to do on mouseclick.
         this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
@@ -31,6 +34,8 @@ public class DrawingSurface extends Pane {
                 String depressedButton = context.menuBox.getDepressedButtonGroup1();
                 
                 switch (depressedButton) {
+                	case "freehand": freeHandDraw(event);
+                					break;
                 	case "line": 	drawLine(event);
                 			 	 	break;
                 	case "drag": 	dragClick(event);
@@ -57,6 +62,8 @@ public class DrawingSurface extends Pane {
         		
         		switch (depressedButton) {
         			case "drag":	dragDrag(event);
+        							break;
+        			case "freehand": freeHandDrawDrag(event);
         							break;
         		}
         	}
@@ -89,7 +96,24 @@ public class DrawingSurface extends Pane {
         });
 	}
 	
+	public void freeHandDraw(MouseEvent event) {
+		freeHand = new Group();
+		path = new Path();
+		
+		this.getChildren().add(freeHand);
+		freeHand.getChildren().add(path);
+		
+		path.setStrokeWidth(context.menuBox.getThiccness());
+		path.setStroke(context.colorPicker.getColor());
+
+		path.getElements().clear();
+        path.getElements().add(new MoveTo(event.getX(), event.getY()));
+	}
 	
+	public void freeHandDrawDrag(MouseEvent event) {
+		path.getElements().add(new LineTo(event.getX(), event.getY()));
+	}
+		
 	/*  Function that given a mouse even and a surface advances 
      *  the line drawing process on that surface by one click.
      */
@@ -106,7 +130,7 @@ public class DrawingSurface extends Pane {
             Line line = new Line();
             Paint color = context.colorPicker.getColor();
             line.setStroke(color);
-            line.setStrokeWidth(2);
+            line.setStrokeWidth(context.menuBox.getThiccness());
             
             line.setStartX(context.storedx);
             line.setStartY(context.storedy);

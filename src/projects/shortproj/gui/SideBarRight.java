@@ -19,7 +19,7 @@ public final class SideBarRight extends VBox {
 	public SideBarRight(Context context) {
 		this.context = context;
 		
-        this.setPadding(new Insets(5, 15, 15, 15));
+        this.setPadding(new Insets(10, 15, 15, 15));
         this.setSpacing(10);
         this.setStyle("-fx-background-color: #336699;");
                 
