@@ -9,11 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-
 public class ShortProject extends Application {
 	
     private Context context;
-	private ColorBar colorPicker;
 	
     @Override
     public void start(Stage primaryStage) {
@@ -21,18 +19,14 @@ public class ShortProject extends Application {
 
         context = new Context(primaryStage);
         
-        SideBar menuBox = new SideBar(context);
-        colorPicker = new ColorBar(context);
-        DrawingSurface surface = new DrawingSurface(menuBox, colorPicker, context);
-        MenuBar menuBar = new TopMenu(context, surface);
-        
         // Set both panes' positions on main pane
-        root.setTop(menuBar);
-        root.setLeft(menuBox);
-        root.setBottom(colorPicker);
-        root.setCenter(surface);
+        root.setTop(context.menuBar);
+        root.setLeft(context.menuBox);
+        root.setRight(context.sidebarRight);
+        root.setBottom(context.colorPicker);
+        root.setCenter(context.surface);
         
-        Scene scene = new Scene(root, 1000, 800);
+        Scene scene = new Scene(root, 1200, 800);
                 
         primaryStage.setTitle("Photopoop v.0.0.01");
         primaryStage.setScene(scene);
