@@ -1,9 +1,12 @@
 package projects.shortproj.gui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.control.FocusModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
@@ -54,19 +57,13 @@ public final class SideBarRight extends VBox {
         list.setPrefSize(150, 200);                
         list.setItems(items);
         
-        MultipleSelectionModel<ElementGroup> model = list.getSelectionModel();
-        
-        list.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-            	for (ElementGroup group : items) {
-            		group.highlight();
-            		group.unHighlight();
-            	}
-            	if (model.getSelectedItem() != null)
-            		model.getSelectedItem().highlight();
-            }
-        });
+        // Make groups Highlight upon selection.
+        list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ElementGroup>() {
+            public void changed(ObservableValue<? extends ElementGroup> ov, ElementGroup old_val, ElementGroup new_val) {
+            		if (old_val != null) old_val.unHighlight();
+            		new_val.highlight();
+                }
+         });
         
         // Add list to sidebar
         this.getChildren().addAll(groupListLabel, list, btnPanel);
