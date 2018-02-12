@@ -16,14 +16,14 @@ import java.lang.Math;
 public class DrawingSurface extends Pane {
 
 	private Context context;
-	private int groupID;
+	private int groupID, prevGroupID;
 	
 	Group freeHand;
 	Path path;	
 	
 	public DrawingSurface(Context c) {
 		this.context = c;
-		groupID = -1;
+		groupID = prevGroupID = -1;
 		path = new Path();
 
 		// Add an event handler to the pane that checks what button is pressed for what to do on mouseclick.
@@ -159,8 +159,13 @@ public class DrawingSurface extends Pane {
     		Node node = (Node) event.getTarget();
     		context.storedGroup.getChildren().add(node);
     		System.out.println("Added a Node to a Group!");
-    		// add node to group collection
-    		context.sidebarRight.items.add(new ElementGroup(context.storedGroup, "Group " + groupID));
+    		if (groupID == prevGroupID) {
+        		//context.sidebarRight.items.get(groupID).getGroup().getChildren().add(node);
+        	}
+        	else {
+        		context.sidebarRight.items.add(new ElementGroup(context.storedGroup, "Group " + groupID));
+        		prevGroupID = groupID;
+        	}
     	}
     }
     
