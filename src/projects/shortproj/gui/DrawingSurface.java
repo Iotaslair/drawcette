@@ -107,11 +107,9 @@ public class DrawingSurface extends Pane {
 	}
 	
 	public void freeHandDraw(MouseEvent event) {
-		freeHand = new Group();
 		path = new Path();
 		
-		this.getChildren().add(freeHand);
-		freeHand.getChildren().add(path);
+		this.getChildren().add(path);
 		
 		path.setStrokeWidth(context.menuBox.getThiccness());
 		path.setStroke(context.colorPicker.getColor());
