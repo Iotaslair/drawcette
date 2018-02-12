@@ -68,6 +68,12 @@ public final class SideBar extends VBox {
         tool6.setPrefSize(60, 25);
         tool6.setUserData("circle");
         tool6.setOnAction(getContextClear());
+
+        ToggleButton tool12 = new ToggleButton("Text");
+        tool12.setToggleGroup(group1);
+        tool12.setPrefSize(60, 25);
+        tool12.setUserData("text");
+        tool12.setOnAction(getContextClear());
         
         Label toolsLabel3 = new Label("Manipulate");
         toolsLabel3.setTextFill(Color.WHITE);
@@ -107,7 +113,7 @@ public final class SideBar extends VBox {
         
         // Add all elements to the toolbar
         this.getChildren().addAll(toolsLabel1, tool1, tool2, tool3, 
-        		toolsLabel2, tool4, tool5, tool6, toolsLabel3,
+        		toolsLabel2, tool4, tool5, tool6, tool12, toolsLabel3,
                         tool11, tool7, tool10, toolsLabel4, tool8, tool9);
         
 	}

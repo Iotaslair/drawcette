@@ -3,14 +3,19 @@ package projects.shortproj.gui;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import projects.shortproj.util.Context;
 import java.lang.Math;
+import java.util.Optional;
 
 public class DrawingSurface extends Pane {
 
@@ -39,6 +44,8 @@ public class DrawingSurface extends Pane {
                 					break;
                     case "delete":  delete(event);
                                     break;
+                    case "text":	text(event);
+                    				break;
                 	default:     System.out.println("Don't know what to do with this click.");
                 				 break;
                 }
@@ -161,7 +168,7 @@ public class DrawingSurface extends Pane {
 			System.out.println("Rotating a Node");
 				
     	} else if(context.clickCount == 1) {
-			Rotate rotate = new Rotate(0, event.getSceneX(), event.getSceneY());
+			Rotate rotate = new Rotate(0, event.getX(), event.getY());
 			context.storedNode.getTransforms().add(rotate);
 			context.transform = rotate;
 			context.clickCount++;
@@ -174,7 +181,7 @@ public class DrawingSurface extends Pane {
     public void rotateMove(MouseEvent event) {
     	if(context.clickCount == 2 && context.transform != null && context.transform instanceof Rotate) {
     		Rotate rotate = (Rotate) context.transform;
-    		double angle = Math.toDegrees(Math.atan2(context.storedy - event.getSceneY(), context.storedx - event.getSceneX()));
+    		double angle = Math.toDegrees(Math.atan2(context.storedy - event.getX(), context.storedx - event.getY()));
     		angle = (angle < 0) ? (360d + angle) : angle;
     		rotate.setAngle(angle);
     	}
@@ -189,8 +196,8 @@ public class DrawingSurface extends Pane {
 			
 			context.transform = new Translate();
 			node.getTransforms().add(context.transform);
-			context.storedx = node.getTranslateX() - event.getSceneX();
-			context.storedy = node.getTranslateX() - event.getSceneY();
+			context.storedx = node.getTranslateX() - event.getX();
+			context.storedy = node.getTranslateX() - event.getY();
     	}
     }
     
@@ -200,8 +207,8 @@ public class DrawingSurface extends Pane {
 			if(node.getParent() instanceof Group) node = node.getParent();
 			Translate transform = (Translate) context.transform;
 			
-			transform.setX(event.getSceneX() + context.storedx);
-			transform.setY(event.getSceneY() + context.storedy);
+			transform.setX(event.getX() + context.storedx);
+			transform.setY(event.getY() + context.storedy);
     	}
     }
     
@@ -209,15 +216,35 @@ public class DrawingSurface extends Pane {
     	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
 			context.storedx = -1;
 			context.storedy = -1;
-			
 			context.transform = null;
     	}
     }
+    
+    
     //delete function (will allow for deletion of groups)
     public void delete(MouseEvent event)
     {
         Node node = (Node) event.getTarget();
         if(node.getParent() instanceof Group) node = node.getParent();
         this.getChildren().remove(node);
+    }
+    
+    
+    // Text creation function
+    public void text(MouseEvent event) {
+        TextInputDialog dialog = new TextInputDialog("text");
+        dialog.setTitle("Text Input Dialog");
+        dialog.setHeaderText("Input dialog");
+        dialog.setContentText("Please enter text:");
+
+        // Traditional way to get the response value.
+        Optional<String> text = dialog.showAndWait();
+        if (text.isPresent()){
+        	Text t = new Text();
+        	t.setText(text.get());
+        	this.getChildren().add(t);
+        	t.setX(event.getX());
+        	t.setY(event.getY());
+        }
     }
 }
