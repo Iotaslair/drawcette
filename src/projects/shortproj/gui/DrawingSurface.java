@@ -41,6 +41,8 @@ public class DrawingSurface extends Pane {
                 					break;
                 	case "remove":	removeFromGroup(event);
                 					break;
+                    case "delete":  delete(event);
+                                    break;
                 	default:     System.out.println("Don't know what to do with this click.");
                 				 break;
                 }
@@ -214,5 +216,11 @@ public class DrawingSurface extends Pane {
 			
 			context.transform = null;
     	}
+    }
+    //delete function (will allow for deletion of groups)
+    public void delete(MouseEvent event)
+    {
+        Node node = (Node) event.getTarget();
+        this.getChildren().remove(node.getParent());
     }
 }
