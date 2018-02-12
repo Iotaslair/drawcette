@@ -3,15 +3,18 @@ package projects.shortproj.gui;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import projects.shortproj.util.Context;
 import projects.shortproj.util.ElementGroup;
 import java.lang.Math;
+import java.util.Optional;
 
 public class DrawingSurface extends Pane {
 
@@ -48,6 +51,8 @@ public class DrawingSurface extends Pane {
                 					break;
                     case "delete":  delete(event);
                                     break;
+                    case "text":	textClick(event);
+                    				break;
                 	default:     System.out.println("Don't know what to do with this click.");
                 				 break;
                 }
@@ -267,5 +272,27 @@ public class DrawingSurface extends Pane {
         Node node = (Node) event.getTarget();
         if(node.getParent() instanceof Group) node = node.getParent();
         this.getChildren().remove(node);
+    }
+    
+    public void textClick(MouseEvent event) {
+    	TextInputDialog dialog = new TextInputDialog("text");
+    	dialog.setTitle("Text Input Dialog");
+    	dialog.setHeaderText("Look, a Text Input Dialog");
+    	dialog.setContentText("Please enter desired text:");
+    	
+    	Optional<String> result = dialog.showAndWait();
+    	if (result.isPresent()){
+    	    Text text = new Text();
+    	    text.setText(result.get());
+    	    
+    	    text.setX(event.getX());
+    	    text.setY(event.getY());
+    	    
+    	    text.setStroke(context.colorPicker.getColor());
+    	    text.setScaleX(context.menuBox.getThiccness());
+    	    text.setScaleY(context.menuBox.getThiccness());
+    	    
+    	    this.getChildren().add(text);
+    	}
     }
 }
