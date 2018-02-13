@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.FocusModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -60,7 +61,12 @@ public final class SideBarRight extends VBox {
         btnAddToGroup.setUserData("add");
         btnAddToGroup.setOnAction(getContextClear());
         
-        btnPanel2.getChildren().add(btnAddToGroup);
+        ToggleButton btnDisbandGroup = new ToggleButton("disband");
+        btnDisbandGroup.setPrefSize(80, 25);
+        btnDisbandGroup.setUserData("disband");
+        btnDisbandGroup.setOnAction(getDisband());
+        
+        btnPanel2.getChildren().addAll(btnAddToGroup, btnDisbandGroup);
 
         // List of groups
         Label groupListLabel = new Label("Groups");
@@ -93,7 +99,38 @@ public final class SideBarRight extends VBox {
 		};
 	}
 	
+	private EventHandler<ActionEvent> getDisband() {
+		return new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				disband();
+			}
+		};
+	}
+	
 	public ElementGroup getActiveGroup() {
 		return list.getSelectionModel().getSelectedItem();
+	}
+	
+	private void disband() {
+		if (list.getSelectionModel().getSelectedItem() == null) return;
+		ElementGroup elementGroup = list.getSelectionModel().getSelectedItem();
+		if (elementGroup.getGroupName().equals("none")) return;
+		Group group = elementGroup.getGroup();
+		elementGroup.unHighlight();
+		
+		// Get rid of each node while respecting their movements.
+		for (Node node : group.getChildren()) {
+			node.setTranslateX(node.getTranslateX() + node.getParent().getTranslateX());
+			node.setTranslateY(node.getTranslateY() + node.getParent().getTranslateY());
+			node.setRotate(node.getRotate() + node.getParent().getRotate());
+			node.setEffect(null);
+		}
+		
+		context.surface.getChildren().addAll(group.getChildren());
+						
+		// When group is now empty delete it.
+		context.surface.getChildren().remove(group);
+		this.items.remove(elementGroup);
 	}
 }

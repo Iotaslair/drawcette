@@ -150,7 +150,6 @@ public class DrawingSurface extends Pane {
 		}
 	}
 	
-	
 	/*  Function that given a mouse even and a surface advances 
      *  the line drawing process on that surface by one click.
      */
@@ -345,9 +344,7 @@ public class DrawingSurface extends Pane {
 	    		node.setEffect(null);
 				Group group = (Group) node.getParent();
 	    		this.getChildren().add(node);
-	    		
-	    		System.out.println(group.getChildrenUnmodifiable());
-	    		
+	    		    		
 	    		// If group is now empty delete it.
 	    		if(group.getChildrenUnmodifiable().isEmpty()) {
 	    			this.getChildren().remove(group);
