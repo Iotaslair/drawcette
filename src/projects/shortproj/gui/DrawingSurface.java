@@ -58,6 +58,8 @@ public class DrawingSurface extends Pane {
                                     break;
                     case "text":	textClick(event);
                     				break;
+                    case "add":		addClick(event);
+                    				break;
                 	default:     System.out.println("Don't know what to do with this click.");
                 				 break;
                 }
@@ -133,6 +135,22 @@ public class DrawingSurface extends Pane {
 		path.getElements().add(new LineTo(event.getX(), event.getY()));
 	}
 		
+	public void addClick(MouseEvent event) {
+		if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
+			Node node = (Node) event.getTarget();
+			
+			if (!(node.getParent() instanceof Group)){
+				ElementGroup activeGroup = context.sidebarRight.getActiveGroup();
+				if (!activeGroup.getGroupName().equals("none")) {
+					activeGroup.getGroup().getChildren().add(node);
+					activeGroup.highlight();
+			
+				}
+			}
+		}
+	}
+	
+	
 	/*  Function that given a mouse even and a surface advances 
      *  the line drawing process on that surface by one click.
      */
@@ -319,30 +337,32 @@ public class DrawingSurface extends Pane {
     	if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
     		Node node = (Node) event.getTarget();
     		
-    		// Move the group transforms down onto the removed element.
-    		node.setTranslateX(node.getTranslateX() + node.getParent().getTranslateX());
-    		node.setTranslateY(node.getTranslateY() + node.getParent().getTranslateY());
-    		node.setRotate(node.getRotate() + node.getParent().getRotate());
-    		node.setEffect(null);
-			Group group = (Group) node.getParent();
-    		this.getChildren().add(node);
-    		
-    		System.out.println(group.getChildrenUnmodifiable());
-    		
-    		// If group is now empty delete it.
-    		if(group.getChildrenUnmodifiable().isEmpty()) {
-    			this.getChildren().remove(group);
-    			
-    			ElementGroup removeMe = null;
-    			for (ElementGroup item : context.sidebarRight.items) {
-    				if (group.getAccessibleText().equals(item.getGroupName()))
-    					removeMe = item;
-    			}
-    			if (removeMe != null)
-    				context.sidebarRight.items.remove(removeMe);
+    		if (!(node.getParent() instanceof DrawingSurface)) {
+	    		// Move the group transforms down onto the removed element.
+	    		node.setTranslateX(node.getTranslateX() + node.getParent().getTranslateX());
+	    		node.setTranslateY(node.getTranslateY() + node.getParent().getTranslateY());
+	    		node.setRotate(node.getRotate() + node.getParent().getRotate());
+	    		node.setEffect(null);
+				Group group = (Group) node.getParent();
+	    		this.getChildren().add(node);
+	    		
+	    		System.out.println(group.getChildrenUnmodifiable());
+	    		
+	    		// If group is now empty delete it.
+	    		if(group.getChildrenUnmodifiable().isEmpty()) {
+	    			this.getChildren().remove(group);
+	    			
+	    			ElementGroup removeMe = null;
+	    			for (ElementGroup item : context.sidebarRight.items) {
+	    				if (group.getAccessibleText().equals(item.getGroupName()))
+	    					removeMe = item;
+	    			}
+	    			if (removeMe != null)
+	    				context.sidebarRight.items.remove(removeMe);
+	    		}
+	    		
+	    		System.out.println("Removed a Node from a group.");
     		}
-    		
-    		System.out.println("Removed a Node from a group.");
     	}
     }
     

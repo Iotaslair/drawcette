@@ -50,6 +50,17 @@ public final class SideBarRight extends VBox {
 
         // Horizontal box for buttons
         btnPanel.getChildren().addAll(btnNewGroup, btnRemoveGroup);
+        
+        HBox btnPanel2 = new HBox();
+        btnPanel2.setSpacing(10);
+        
+        ToggleButton btnAddToGroup = new ToggleButton("Add");
+        btnAddToGroup.setToggleGroup(context.toolGroup);
+        btnAddToGroup.setPrefSize(80, 25);
+        btnAddToGroup.setUserData("add");
+        btnAddToGroup.setOnAction(getContextClear());
+        
+        btnPanel2.getChildren().add(btnAddToGroup);
 
         // List of groups
         Label groupListLabel = new Label("Groups");
@@ -70,7 +81,7 @@ public final class SideBarRight extends VBox {
          });
         
         // Add list to sidebar
-        this.getChildren().addAll(groupListLabel, list, btnPanel);
+        this.getChildren().addAll(groupListLabel, list, btnPanel, btnPanel2);
 	}
 
 	private EventHandler<ActionEvent> getContextClear() {
@@ -80,5 +91,9 @@ public final class SideBarRight extends VBox {
 				context.resetLastClick();
 			}
 		};
+	}
+	
+	public ElementGroup getActiveGroup() {
+		return list.getSelectionModel().getSelectedItem();
 	}
 }
