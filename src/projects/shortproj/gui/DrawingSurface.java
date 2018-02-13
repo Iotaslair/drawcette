@@ -382,8 +382,6 @@ public class DrawingSurface extends Pane {
 			Node node = (Node) event.getTarget();
 			if(node.getParent() instanceof Group) node = node.getParent();
 			
-			context.transform = new Translate();
-			node.getTransforms().add(context.transform);
 			context.storedx = node.getTranslateX() - event.getSceneX();
 			context.storedy = node.getTranslateX() - event.getSceneY();
     	}
@@ -393,10 +391,9 @@ public class DrawingSurface extends Pane {
     	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
 			Node node = (Node) event.getTarget();
 			if(node.getParent() instanceof Group) node = node.getParent();
-			Translate transform = (Translate) context.transform;
 			
-			transform.setX(event.getSceneX() + context.storedx);
-			transform.setY(event.getSceneY() + context.storedy);
+			node.setTranslateX(event.getSceneX() + context.storedx);
+			node.setTranslateY(event.getSceneY() + context.storedy);
     	}
     }
     
@@ -404,10 +401,9 @@ public class DrawingSurface extends Pane {
     	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
 			context.storedx = -1;
 			context.storedy = -1;
-			
-			context.transform = null;
     	}
     }
+    
     //delete function (Allows for deletion of groups)
     public void delete(MouseEvent event)
     {
