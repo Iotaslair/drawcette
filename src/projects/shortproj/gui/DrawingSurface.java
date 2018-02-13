@@ -3,6 +3,9 @@ package projects.shortproj.gui;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -423,6 +426,16 @@ public class DrawingSurface extends Pane {
         Node node = (Node) event.getTarget();
         
         if(node.getParent() instanceof Group) {
+        	Alert alert = new Alert(AlertType.CONFIRMATION);
+        	alert.setTitle("Warning Dialog");
+        	alert.setHeaderText("Will delete the entire group.");
+        	alert.setContentText("If you do this you will delete the entire group. Do you want to continue? "
+        			+ "(If not try removing the element you want to delete from the group first.)");
+
+        	Optional<ButtonType> result = alert.showAndWait();
+        	if (result.get() != ButtonType.OK)
+        	    return;
+        	
         	Group group = (Group) node.getParent();
         	ElementGroup removeMe = null;
 			for (ElementGroup item : context.sidebarRight.items) {
