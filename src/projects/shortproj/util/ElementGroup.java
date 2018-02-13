@@ -19,6 +19,7 @@ public class ElementGroup {
 	public ElementGroup(Group g, String s) {
 		group = g;
 		groupName = s;
+		group.setAccessibleText(groupName);
 		
 		highlight = new DropShadow();
 		Color color = Color.rgb(255, 233, 0);
@@ -34,6 +35,17 @@ public class ElementGroup {
 	
 	public Group getGroup() {
 		return group;
+	}
+	
+	public void removeFromGroup(Object node) {
+		if (node instanceof Node) {
+			((Node) node).setEffect(null);
+		}
+		group.getChildren().remove(node);
+	}
+	
+	public void addToGroup(Node node) {
+		group.getChildren().add(node);
 	}
 	
 	public String getGroupName() {

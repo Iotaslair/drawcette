@@ -321,10 +321,24 @@ public class DrawingSurface extends Pane {
     		
     		// Move the group transforms down onto the removed element.
     		node.getTransforms().addAll(node.getParent().getTransforms());
+    		node.setEffect(null);
+			Group group = (Group) node.getParent();
     		this.getChildren().add(node);
     		
+    		System.out.println(group.getChildrenUnmodifiable());
+    		
     		// If group is now empty delete it.
-    		if(node.getParent().getChildrenUnmodifiable().isEmpty()) this.getChildren().remove(node.getParent());
+    		if(group.getChildrenUnmodifiable().isEmpty()) {
+    			this.getChildren().remove(group);
+    			
+    			ElementGroup removeMe = null;
+    			for (ElementGroup item : context.sidebarRight.items) {
+    				if (group.getAccessibleText().equals(item.getGroupName()))
+    					removeMe = item;
+    			}
+    			if (removeMe != null)
+    				context.sidebarRight.items.remove(removeMe);
+    		}
     		
     		System.out.println("Removed a Node from a group.");
     	}
