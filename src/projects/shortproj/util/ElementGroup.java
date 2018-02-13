@@ -1,6 +1,7 @@
 package projects.shortproj.util;
 
 import javafx.scene.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
@@ -9,6 +10,7 @@ public class ElementGroup {
 	private Group group;
 	private String groupName;
 	private Paint[] colors;
+	private DropShadow highlight;
 	
 	public void setGroup(Group g) {
 		group = g;
@@ -17,6 +19,13 @@ public class ElementGroup {
 	public ElementGroup(Group g, String s) {
 		group = g;
 		groupName = s;
+		
+		highlight = new DropShadow();
+		Color color = Color.rgb(255, 233, 0);
+		highlight.setColor(color);
+		highlight.setOffsetX(0f);
+		highlight.setOffsetY(0f);
+		highlight.setHeight(50);
 	}
 	
 	public void setGroupName(String s) {
@@ -37,24 +46,14 @@ public class ElementGroup {
 	}
 
 	public void highlight() {
-		Color highlight = Color.rgb(255, 233, 0);
-		
-		colors = new Paint[group.getChildren().size()];
-		int i = 0;
 		for (Node node : group.getChildren()) {
-			if (node instanceof Shape) {
-				colors[i++] = ((Shape) node).getStroke();
-				((Shape) node).setStroke(highlight);
-			}
+			node.setEffect(highlight);
 		}
 	}
 	
 	public void unHighlight() {
-		int i = 0;
 		for (Node node : group.getChildren()) {
-			if (node instanceof Shape) {
-				((Shape) node).setStroke(colors[i++]);
-			}
+			node.setEffect(null);
 		}
 	}
 }

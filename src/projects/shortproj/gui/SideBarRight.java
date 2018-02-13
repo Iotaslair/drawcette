@@ -6,6 +6,7 @@ import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.control.FocusModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -56,6 +57,9 @@ public final class SideBarRight extends VBox {
         
         list.setPrefSize(150, 200);                
         list.setItems(items);
+        
+        ElementGroup background = new ElementGroup(new Group(), "none");
+        items.add(background);
         
         // Make groups Highlight upon selection.
         list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ElementGroup>() {
