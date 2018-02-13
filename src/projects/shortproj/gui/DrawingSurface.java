@@ -320,7 +320,9 @@ public class DrawingSurface extends Pane {
     		Node node = (Node) event.getTarget();
     		
     		// Move the group transforms down onto the removed element.
-    		node.getTransforms().addAll(node.getParent().getTransforms());
+    		//node.getTransforms().addAll(node.getParent().getTransforms());
+    		node.setTranslateX(node.getTranslateX() + node.getParent().getTranslateX());
+    		node.setTranslateY(node.getTranslateY() + node.getParent().getTranslateY());
     		node.setEffect(null);
 			Group group = (Group) node.getParent();
     		this.getChildren().add(node);
