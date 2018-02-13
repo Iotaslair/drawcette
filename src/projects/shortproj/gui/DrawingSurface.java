@@ -320,9 +320,9 @@ public class DrawingSurface extends Pane {
     		Node node = (Node) event.getTarget();
     		
     		// Move the group transforms down onto the removed element.
-    		//node.getTransforms().addAll(node.getParent().getTransforms());
     		node.setTranslateX(node.getTranslateX() + node.getParent().getTranslateX());
     		node.setTranslateY(node.getTranslateY() + node.getParent().getTranslateY());
+    		node.setRotate(node.getRotate() + node.getParent().getRotate());
     		node.setEffect(null);
 			Group group = (Group) node.getParent();
     		this.getChildren().add(node);
@@ -353,27 +353,21 @@ public class DrawingSurface extends Pane {
 			Node node = (Node) event.getTarget();
 			if(node.getParent() instanceof Group) node = node.getParent();
 			
+			context.storedx = event.getX();
+			context.storedy = event.getY();
+			
 			context.storedNode = node;
 			context.clickCount++;
 			System.out.println("Rotating a Node");
 				
     	} else if(context.clickCount == 1) {
-			Rotate rotate = new Rotate(0, event.getSceneX(), event.getSceneY());
-			context.storedNode.getTransforms().add(rotate);
-			context.transform = rotate;
-			context.clickCount++;
-		} else {
-			context.clickCount = 0;
+			context.resetLastClick();
 		}
     }
     
-    // Rotate is a little broken. This function is to blame but the solution is not obvious yet.
     public void rotateMove(MouseEvent event) {
-    	if(context.clickCount == 2 && context.transform != null && context.transform instanceof Rotate) {
-    		Rotate rotate = (Rotate) context.transform;
-    		double angle = Math.toDegrees(Math.atan2(context.storedy - event.getSceneY(), context.storedx - event.getSceneX()));
-    		angle = (angle < 0) ? (360d + angle) : angle;
-    		rotate.setAngle(angle);
+    	if(context.clickCount == 1) {
+    		context.storedNode.setRotate(Math.sqrt(Math.pow(event.getX() - context.storedx, 2) + Math.pow(event.getY() - context.storedy, 2)));
     	}
     }
     
