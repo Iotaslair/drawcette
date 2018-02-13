@@ -194,9 +194,23 @@ public class DrawingSurface extends Pane {
     public void rectangleMove(MouseEvent event) {
     	if (context.clickCount == 1) {
     		Rectangle rect = (Rectangle) context.storedNode;
-    		rect.setWidth(event.getX() - context.storedx);
-    		rect.setHeight(event.getY() - context.storedy);
-    	}
+
+    		double deltax = event.getX() - context.storedx;
+    		double deltay = event.getY() - context.storedy;
+    		
+    		// Handle when the user moves the cursor above or to the left of the original point.
+    		if (deltax < 0) {
+    			rect.setX(event.getX());
+    			rect.setWidth(-deltax);
+    		} else
+        		rect.setWidth(deltax);
+    		
+    		if (deltay < 0) {
+    			rect.setY(event.getY());
+    			rect.setHeight(-deltay);
+    		} else
+        		rect.setHeight(deltay);
+    	}		
     }
 
     public void circleClick(MouseEvent event) {
@@ -226,7 +240,7 @@ public class DrawingSurface extends Pane {
     public void circleMove(MouseEvent event) {
     	if (context.clickCount == 1) {
     		Circle cir = (Circle) context.storedNode;
-    		cir.setRadius(event.getX() - context.storedx);
+    		cir.setRadius(Math.sqrt(Math.pow(event.getX() - context.storedx, 2) + Math.pow(event.getY() - context.storedy, 2)));
     	}
     }   
     
@@ -286,7 +300,7 @@ public class DrawingSurface extends Pane {
     		double deltax = event.getX() - context.storedx;
     		double deltay = event.getY() - context.storedy;
     		
-    		// Handle when the user moves the cursor above or to the left of the origonal point.
+    		// Handle when the user moves the cursor above or to the left of the original point.
     		if (deltax < 0) {
     			rectangle.setX(event.getX());
     			rectangle.setWidth(-deltax);
