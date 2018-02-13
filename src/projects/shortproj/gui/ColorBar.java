@@ -1,14 +1,17 @@
 package projects.shortproj.gui;
 
+import javafx.beans.value.*;
 import javafx.geometry.Insets;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import projects.shortproj.util.Context;
 
 public class ColorBar extends HBox {
+	Context context;
     final ToggleGroup group = new ToggleGroup();
 
     ToggleButton color1 = new ToggleButton();
@@ -21,6 +24,8 @@ public class ColorBar extends HBox {
     ToggleButton color8 = new ToggleButton();
 
 	public ColorBar(Context context) {
+		this.context = context;
+		
 		// Set up the panel
         this.setPadding(new Insets(20, 20, 15, 15));
         this.setSpacing(10);
@@ -59,20 +64,34 @@ public class ColorBar extends HBox {
         color6.setStyle("-fx-base: indigo;");
 
         color7.setToggleGroup(group);
-        color7.setTextFill(Color.VIOLET);
+        color7.setTextFill(Color.BLACK);
         color7.setPrefSize(30, 30);
-        color7.setStyle("-fx-base: violet;");
+        color7.setStyle("-fx-base: black;");
 
         color8.setToggleGroup(group);
-        color8.setTextFill(Color.BLACK);
+        color8.setTextFill(Color.WHITE);
         color8.setPrefSize(30, 30);
-        color8.setStyle("-fx-base: black;");
-
+        color8.setStyle("-fx-base: white;");
+        
         this.getChildren().addAll(color1, color2, color3, color4, color5, color6, color7, color8);
+        
+        changeSelectedColorSize(color1, color1);
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+            public void changed(ObservableValue<? extends Toggle> ov, Toggle toggle, Toggle new_toggle) {
+        		changeSelectedColorSize(toggle, new_toggle);
+        	}
+        });
 	}
 	
 	public Paint getColor() {
 		ToggleButton btn = (ToggleButton) group.getSelectedToggle();
 		return btn.getTextFill();
+	}
+	
+	public void changeSelectedColorSize(Toggle o, Toggle s) {
+		ToggleButton previous = (ToggleButton) o;
+		ToggleButton selected = (ToggleButton) s;
+        previous.setBorder(null);
+        selected.setBorder(new Border(new BorderStroke(Color.WHITESMOKE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 	}
 }

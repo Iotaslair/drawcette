@@ -20,14 +20,14 @@ import java.util.Optional;
 public class DrawingSurface extends Pane {
 
 	private Context context;
-	private int groupID, prevGroupID;
+	private int groupID;
 	
 	Group freeHand;
 	Path path;	
 	
 	public DrawingSurface(Context c) {
 		this.context = c;
-		groupID = prevGroupID = -1;
+		groupID = -1;
 		path = new Path();
 
 		// Add an event handler to the pane that checks what button is pressed for what to do on mouseclick.
@@ -42,6 +42,10 @@ public class DrawingSurface extends Pane {
                 					break;
                 	case "line": 	lineClick(event);
                 			 	 	break;
+                	case "rect":	rectangleClick(event);
+                					break;
+                	case "circle":	circleClick(event);
+									break;
                 	case "drag": 	dragClick(event);
                 				 	break;
                 	case "new_group":	newGroupClick(event);
@@ -103,6 +107,11 @@ public class DrawingSurface extends Pane {
         							break;
         			case "line":	lineMove(event);
         							break;
+                	case "rect":	rectangleMove(event);
+                					break;
+                	case "circle":	circleMove(event);
+                					break;
+
         		}
         	}
         });
@@ -146,13 +155,7 @@ public class DrawingSurface extends Pane {
             context.storedNode = line;
         }
         else {
-        	// Reset the context
-            context.clickCount = 0;
-
-            context.storedNode = null;
-                                
-            context.storedx = -1;
-            context.storedy = -1;
+        	resetContext();
         }
     }
     
@@ -163,6 +166,69 @@ public class DrawingSurface extends Pane {
     		line.setEndY(event.getY());
     	}
     }
+    
+    public void rectangleClick(MouseEvent event) {
+    	if (context.clickCount == 0){
+            context.clickCount++;
+    	
+	        Rectangle rect = new Rectangle();
+	        
+	        rect.setStrokeWidth(context.menuBox.getThiccness());
+	        rect.setStroke(context.colorPicker.getColor());
+	        rect.setFill(null);
+	        
+	        rect.setX(event.getX());
+	        rect.setY(event.getY());
+	        	        
+	        context.storedx = event.getX();
+	        context.storedy = event.getY();
+	        
+	        this.getChildren().add(rect);
+	        context.storedNode = rect;
+    	}
+    	else {
+    		resetContext();
+		}
+    }
+    
+    public void rectangleMove(MouseEvent event) {
+    	if (context.clickCount == 1) {
+    		Rectangle rect = (Rectangle) context.storedNode;
+    		rect.setWidth(event.getX() - context.storedx);
+    		rect.setHeight(event.getY() - context.storedy);
+    	}
+    }
+
+    public void circleClick(MouseEvent event) {
+    	if (context.clickCount == 0){
+            context.clickCount++;
+
+            Circle cir = new Circle(); 
+            
+            cir.setStrokeWidth(context.menuBox.getThiccness());
+            cir.setStroke(context.colorPicker.getColor());
+            cir.setFill(null);
+            
+            cir.setCenterX(event.getX());
+            cir.setCenterY(event.getY());
+            
+	        context.storedx = event.getX();
+	        context.storedy = event.getY();
+
+            this.getChildren().add(cir);
+            context.storedNode = cir;
+    	}
+    	else {
+    		resetContext();
+    	}
+    }     
+    
+    public void circleMove(MouseEvent event) {
+    	if (context.clickCount == 1) {
+    		Circle cir = (Circle) context.storedNode;
+    		cir.setRadius(event.getX() - context.storedx);
+    	}
+    }   
     
     /* Function that create a selection box, and the nodes 
      * found inside the box are added to a new group.
@@ -205,17 +271,12 @@ public class DrawingSurface extends Pane {
     		}
     		
     		// Check to make sure the group is not empty before adding it as a group.
-    		if(context.storedGroup.getChildren().size() != 0) {
+    		if (context.storedGroup.getChildren().size() != 0) {
         		this.getChildren().add(context.storedGroup);
         		context.sidebarRight.items.add(new ElementGroup(context.storedGroup, "Group " + ++groupID));
     		}
-    		
-    		// Reset the context
     		this.getChildren().remove(context.storedNode);
-    		context.storedNode = null;
-    		context.clickCount = 0;
-    		context.storedx = -1;
-    		context.storedy = -1;
+    		resetContext();
     	}
     }
     
@@ -347,5 +408,15 @@ public class DrawingSurface extends Pane {
     	    
     	    this.getChildren().add(text);
     	}
+    }
+    
+    public void resetContext() {
+		// Reset the context
+        context.clickCount = 0;
+
+        context.storedNode = null;
+                            
+        context.storedx = -1;
+        context.storedy = -1;
     }
 }

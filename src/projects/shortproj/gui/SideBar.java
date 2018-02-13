@@ -46,10 +46,10 @@ public final class SideBar extends VBox {
         btnLine.setUserData("line");
         btnLine.setOnAction(getContextClear());
 
-        ToggleButton btnSquare = new ToggleButton("Square");
+        ToggleButton btnSquare = new ToggleButton("Rectangle");
         btnSquare.setToggleGroup(context.toolGroup);
         btnSquare.setPrefSize(80, 25);
-        btnSquare.setUserData("square");
+        btnSquare.setUserData("rect");
         btnSquare.setOnAction(getContextClear());
 
         ToggleButton btnCircle = new ToggleButton("Circle");
