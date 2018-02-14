@@ -5,13 +5,18 @@ import javafx.event.ActionEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
+
 import javax.imageio.ImageIO;
 import javafx.scene.image.WritableImage;
 import javafx.scene.SnapshotParameters;
@@ -32,6 +37,15 @@ public final class TopMenu extends MenuBar {
         onAction(exitMenu);
         exitMenu.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
+            	Alert alert = new Alert(AlertType.CONFIRMATION);
+            	alert.setTitle("Warning Dialog");
+            	alert.setHeaderText("Attempting to close program.");
+            	alert.setContentText("This will close the program and you will lose all unsaved "
+            			+ "progress are you sure that you want to continue?)");
+
+            	Optional<ButtonType> result = alert.showAndWait();
+            	if (result.get() != ButtonType.OK)
+            	    return;
                 Platform.exit();
             }
         });
