@@ -86,7 +86,7 @@ public final class SideBar extends VBox {
         btnRotate.setOnAction(getContextClear());
 
         ToggleButton btnCurve = new ToggleButton("Curve");
-        btnCurve.setToggleGro,p(context.toolGroup);
+        btnCurve.setToggleGroup(context.toolGroup);
         btnCurve.setPrefSize(80,25);
         btnCurve.setUserData("curve");
         btnCurve.setOnAction(getContextClear());

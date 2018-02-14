@@ -492,6 +492,6 @@ public class DrawingSurface extends Pane {
 
     public void curve(MouseEvent event)
     {
-
+        
     }
 }
