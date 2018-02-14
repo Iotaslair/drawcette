@@ -156,21 +156,21 @@ public final class TopMenu extends MenuBar {
     }
     
     public void print(Node printTarget){
-       PrinterJob printing = PrinterJob.createPrinterJob(); //Creates a print request for the default system Printer.
+    	PrinterJob printing = PrinterJob.createPrinterJob(); //Creates a print request for the default system Printer.
                                                             //Returns null if there isn't any default print
-       PageLayout layOut = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
-       //Above line creates the printed page's default values
-       double scaleX = layOut.getPrintableWidth()/printTarget.getBoundsInParent().getWidth();  //Scales image to page
-       double scaleY = layOut.getPrintableHeight()/printTarget.getBoundsInParent().getHeight();
-       Scale scaled = new Scale(scaleX, scaleY);
-       printTarget.getTransforms().add(scaled);  //Scales image
-       if(printing !=null){
-         boolean finished = printing.printPage(printTarget); //Check if printing is successful. 
-         if (finished) {
-            printing.endJob(); //Ends Print
-         }
-        }
-       printTarget.getTransforms().remove(scaled);  //Unscales image
+    	PageLayout layOut = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
+    	//Above line creates the printed page's default values
+    	double scaleX = layOut.getPrintableWidth()/printTarget.getBoundsInParent().getWidth();  //Scales image to page
+    	double scaleY = layOut.getPrintableHeight()/printTarget.getBoundsInParent().getHeight();
+    	Scale scaled = new Scale(scaleX, scaleY);
+    	printTarget.getTransforms().add(scaled);  //Scales image
+    	if(printing !=null){
+    		boolean finished = printing.printPage(printTarget); //Check if printing is successful. 
+    		if (finished) {
+    			printing.endJob(); //Ends Print
+    		}
+    	}
+    	printTarget.getTransforms().remove(scaled);  //Unscales image
     }
     
     public void createNew() {
@@ -202,7 +202,6 @@ public final class TopMenu extends MenuBar {
 	    	
 	        @Override
 	        public void handle(MouseEvent event) {
-	        	System.out.println("Test");
 	        	switch (str) {
 	        	case "Load": 	load(context.stage, context.surface);
 	        					break;
@@ -212,8 +211,9 @@ public final class TopMenu extends MenuBar {
 	        					break;
 	        	case "New":		createNew();
 	        					break;
+	        	case "Print":	print(context.surface);
 	        					break;
-       //}
+       }
 	        }
 	    });
 	    menu.setGraphic(menuLabel);
