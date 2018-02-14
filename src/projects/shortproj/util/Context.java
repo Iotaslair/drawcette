@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 import projects.shortproj.gui.ColorBar;
@@ -13,7 +14,7 @@ import projects.shortproj.gui.SideBarRight;
 import projects.shortproj.gui.TopMenu;
 
 public class Context {
-
+	public BorderPane root = new BorderPane();
 	public Stage stage;
 	
 	// Main elements
@@ -49,6 +50,14 @@ public class Context {
 		storedGroup = null;
 		storedNode = null;
 		transform = null;
+		
+		// Set both panes' positions on main pane
+        root.setTop(menuBar);
+        root.setLeft(menuBox);
+        root.setRight(sidebarRight);
+        root.setBottom(colorPicker);
+        root.setCenter(surface);
+        root.relocate(root.getWidth() - menuBox.getWidth(), root.getHeight() - menuBox.getHeight());
 	}
 	
 	public void resetLastClick() {

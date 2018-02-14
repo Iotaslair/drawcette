@@ -13,19 +13,10 @@ public class ShortProject extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        BorderPane root = new BorderPane();
-
         context = new Context(primaryStage);
         
-        // Set both panes' positions on main pane
-        root.setTop(context.menuBar);
-        root.setLeft(context.menuBox);
-        root.setRight(context.sidebarRight);
-        root.setBottom(context.colorPicker);
-        root.setCenter(context.surface);
+        Scene scene = new Scene(context.root, 1200, 800);
         
-        Scene scene = new Scene(root, 1200, 800);
-                
         primaryStage.setTitle("Photopoop v.0.0.1");
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -121,7 +121,6 @@ public class DrawingSurface extends Pane {
                     case "circle":  circleMove(event);
                                     break;
                 }
-                context.refreshZ();
             }
         });
     }

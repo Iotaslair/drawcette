@@ -39,9 +39,9 @@ public final class TopMenu extends MenuBar {
             @Override public void handle(ActionEvent e) {
             	Alert alert = new Alert(AlertType.CONFIRMATION);
             	alert.setTitle("Warning Dialog");
-            	alert.setHeaderText("Attempting to close program.");
-            	alert.setContentText("This will close the program and you will lose all unsaved "
-            			+ "progress are you sure that you want to continue?)");
+            	alert.setHeaderText("Exiting Program");
+            	alert.setContentText("All unsaved work will be lost. "
+            			+ "Are you sure that you want to continue?");
 
             	Optional<ButtonType> result = alert.showAndWait();
             	if (result.get() != ButtonType.OK)
