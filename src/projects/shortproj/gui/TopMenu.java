@@ -1,7 +1,6 @@
 package projects.shortproj.gui;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.event.EventHandler;
