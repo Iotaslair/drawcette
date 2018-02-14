@@ -10,11 +10,8 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 import projects.shortproj.util.Context;
 import projects.shortproj.util.ElementGroup;
 import java.lang.Math;
@@ -63,11 +60,13 @@ public class DrawingSurface extends Pane {
                                     break;
                     case "add":     addClick(event);
                                     break;
+                    case "curve":   curve(event);
+                                    break;
 
                     default:     System.out.println("Don't know what to do with this click.");
                                  break;
                 }
-                context.refreshZ();
+                //context.refreshZ();
             }
         });
         
@@ -79,14 +78,14 @@ public class DrawingSurface extends Pane {
                 
                 switch (depressedButton) {
                     case "drag":    dragDrag(event);
-                    				context.refreshZ();	
+                    				//context.refreshZ();	
                                     break;
                     case "freehand":    freeHandDrawDrag(event);
                                         break;
                     case "new_group":   newGroupDrag(event);
                                         break;
                 }
-                context.refreshZ();
+                //context.refreshZ();
             }
         });
         
@@ -102,7 +101,7 @@ public class DrawingSurface extends Pane {
                     case "new_group":   newGroupRelease(event);
                                         break;
                 }
-                context.refreshZ();
+                //context.refreshZ();
             }
         });
         
@@ -140,6 +139,7 @@ public class DrawingSurface extends Pane {
     
     public void freeHandDrawDrag(MouseEvent event) {
         path.getElements().add(new LineTo(event.getX(), event.getY()));
+        context.refreshZ();
     }
         
     public void addClick(MouseEvent event) { //Does this add things to a group?
@@ -489,8 +489,67 @@ public class DrawingSurface extends Pane {
         context.storedy = -1;
     }
 
+    double startX;
+    double startY;
+    double C1X;
+    double C1Y;
+    double C2X;
+    double C2Y;
+    double EX;
+    double EY;
+
+    //clicks are start point, Control point 1, control point 2, end point
     public void curve(MouseEvent event)
     {
-        
+        if(context.clickCount == 0)
+        {
+            startX = event.getSceneX();
+            startY = event.getSceneY();
+            System.out.println("First Click");
+            context.clickCount++;
+        }
+        else
+        {
+            if (context.clickCount == 1)
+            {
+                C1X = event.getSceneX();
+                C1Y = event.getSceneY();
+                System.out.println("Second Click");
+                context.clickCount++;
+            }
+            else
+            {
+                if (context.clickCount == 2)
+                {
+                    C2X = event.getSceneX();
+                    C2Y = event.getSceneY();
+                    System.out.println("Third Click");
+                    context.clickCount++;
+                }
+                else
+                {
+                    if (context.clickCount == 3)
+                    {
+                        EX = event.getSceneX();
+                        EY = event.getSceneY();
+                        System.out.println("StartX: " + startX);
+                        System.out.println("StartY: " + startY);
+                        System.out.println("Control Point 1 X: " + C1X);
+                        System.out.println("Control Point 1 Y: " + C1Y);
+                        System.out.println("Control Point 2 X: " + C2X);
+                        System.out.println("Control Point 2 Y: " + C2Y);
+                        System.out.println("End Point X: " + EX);
+                        System.out.println("End Point Y: " + EY);
+                        CubicCurve tester = new CubicCurve(startX,startY,C1X,C1Y,C2X,C2Y,EX,EY);
+                        tester.setStrokeWidth(context.menuBox.getThiccness());
+                        //this line turns the whole curve to transparent we want to it have it so it the middle is clear
+                        tester.setFill(null);
+                        this.getChildren().add(tester);
+                        System.out.println("Last Click");
+                        context.resetLastClick();
+                    }
+                }
+            }
+        }
     }
 }

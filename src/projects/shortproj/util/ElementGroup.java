@@ -3,8 +3,6 @@ package util;
 import javafx.scene.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Shape;
 
 public class ElementGroup {
 	private Group group;
