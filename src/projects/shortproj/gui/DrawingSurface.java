@@ -63,6 +63,7 @@ public class DrawingSurface extends Pane {
                                     break;
                     case "add":     addClick(event);
                                     break;
+
                     default:     System.out.println("Don't know what to do with this click.");
                                  break;
                 }
@@ -486,5 +487,10 @@ public class DrawingSurface extends Pane {
                             
         context.storedx = -1;
         context.storedy = -1;
+    }
+
+    public void curve(MouseEvent event)
+    {
+        
     }
 }
