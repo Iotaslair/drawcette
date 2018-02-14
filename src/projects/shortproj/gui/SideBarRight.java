@@ -8,17 +8,14 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.FocusModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import projects.shortproj.util.Context;
 import projects.shortproj.util.ElementGroup;
-import javafx.scene.input.MouseEvent;
 
 public final class SideBarRight extends VBox {
 	Context context;

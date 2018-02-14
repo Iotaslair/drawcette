@@ -10,11 +10,8 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 import projects.shortproj.util.Context;
 import projects.shortproj.util.ElementGroup;
 import java.lang.Math;
@@ -67,7 +64,7 @@ public class DrawingSurface extends Pane {
                     default:     System.out.println("Don't know what to do with this click.");
                                  break;
                 }
-                context.refreshZ();
+                //context.refreshZ();
             }
         });
         
@@ -79,14 +76,14 @@ public class DrawingSurface extends Pane {
                 
                 switch (depressedButton) {
                     case "drag":    dragDrag(event);
-                    				context.refreshZ();	
+                    				//context.refreshZ();	
                                     break;
                     case "freehand":    freeHandDrawDrag(event);
                                         break;
                     case "new_group":   newGroupDrag(event);
                                         break;
                 }
-                context.refreshZ();
+                //context.refreshZ();
             }
         });
         
@@ -102,7 +99,7 @@ public class DrawingSurface extends Pane {
                     case "new_group":   newGroupRelease(event);
                                         break;
                 }
-                context.refreshZ();
+                //context.refreshZ();
             }
         });
         
@@ -140,6 +137,7 @@ public class DrawingSurface extends Pane {
     
     public void freeHandDrawDrag(MouseEvent event) {
         path.getElements().add(new LineTo(event.getX(), event.getY()));
+        context.refreshZ();
     }
         
     public void addClick(MouseEvent event) { //Does this add things to a group?
