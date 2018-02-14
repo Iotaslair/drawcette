@@ -60,7 +60,7 @@ public class DrawingSurface extends Pane {
                                     break;
                     case "add":     addClick(event);
                                     break;
-                    case "curve":   curve(event);
+                    case "curve":   curveClick(event);
                                     break;
 
                     default:     System.out.println("Don't know what to do with this click.");
@@ -120,6 +120,8 @@ public class DrawingSurface extends Pane {
                                     break;
                     case "circle":  circleMove(event);
                                     break;
+                    case "curve":	curveMove(event);
+                    				break;
                 }
                 context.refreshZ();
             }
@@ -497,58 +499,75 @@ public class DrawingSurface extends Pane {
     double EX;
     double EY;
 
+    public void curveMove(MouseEvent event) {
+    	if (context.clickCount == 1 && context.storedNode1 instanceof Line) {
+    		Line line = (Line) context.storedNode1;
+    		line.setEndX(event.getX());
+    		line.setEndY(event.getY());
+    	} else if (context.clickCount == 2 && context.storedNode2 instanceof Line) {
+    		Line line = (Line) context.storedNode2;
+    		line.setEndX(event.getX());
+    		line.setEndY(event.getY());
+    	} else if (context.clickCount == 3 && context.storedNode3 instanceof Line) {
+    		Line line = (Line) context.storedNode3;
+    		line.setEndX(event.getX());
+    		line.setEndY(event.getY());
+    	}
+    }
+    
     //clicks are start point, Control point 1, control point 2, end point
-    public void curve(MouseEvent event)
+    public void curveClick(MouseEvent event)
     {
-        if(context.clickCount == 0)
+        if (context.clickCount == 0)
         {
-            startX = event.getSceneX();
-            startY = event.getSceneY();
-            System.out.println("First Click");
+            Line line1 = new Line();
+            line1.setStartX(event.getX());
+            line1.setStartY(event.getY());
+            line1.setEndX(event.getX());
+            line1.setEndY(event.getY());
+            this.getChildren().add(line1);
+            context.storedNode1 = line1;
+            
             context.clickCount++;
         }
-        else
+        else if (context.clickCount == 1)
         {
-            if (context.clickCount == 1)
-            {
-                C1X = event.getSceneX();
-                C1Y = event.getSceneY();
-                System.out.println("Second Click");
-                context.clickCount++;
-            }
-            else
-            {
-                if (context.clickCount == 2)
-                {
-                    C2X = event.getSceneX();
-                    C2Y = event.getSceneY();
-                    System.out.println("Third Click");
-                    context.clickCount++;
-                }
-                else
-                {
-                    if (context.clickCount == 3)
-                    {
-                        EX = event.getSceneX();
-                        EY = event.getSceneY();
-                        System.out.println("StartX: " + startX);
-                        System.out.println("StartY: " + startY);
-                        System.out.println("Control Point 1 X: " + C1X);
-                        System.out.println("Control Point 1 Y: " + C1Y);
-                        System.out.println("Control Point 2 X: " + C2X);
-                        System.out.println("Control Point 2 Y: " + C2Y);
-                        System.out.println("End Point X: " + EX);
-                        System.out.println("End Point Y: " + EY);
-                        CubicCurve tester = new CubicCurve(startX,startY,C1X,C1Y,C2X,C2Y,EX,EY);
-                        tester.setStrokeWidth(context.menuBox.getThiccness());
-                        //this line turns the whole curve to transparent we want to it have it so it the middle is clear
-                        tester.setFill(null);
-                        this.getChildren().add(tester);
-                        System.out.println("Last Click");
-                        context.resetLastClick();
-                    }
-                }
-            }
+        	Line line2 = new Line();
+        	line2.setStartX(event.getX());
+        	line2.setStartY(event.getY());
+            line2.setEndX(event.getX());
+            line2.setEndY(event.getY());
+        	this.getChildren().add(line2);
+        	context.storedNode2 = line2;
+        	
+            context.clickCount++;
+        }
+        else if (context.clickCount == 2)
+        {
+        	Line line3 = new Line();
+        	line3.setStartX(event.getX());
+        	line3.setStartY(event.getY());
+            line3.setEndX(event.getX());
+            line3.setEndY(event.getY());
+        	this.getChildren().add(line3);
+        	context.storedNode3 = line3;
+        	
+            context.clickCount++;
+        }
+        else if (context.clickCount == 3)
+        {
+        	Line line1 = (Line) context.storedNode1;
+        	Line line2 = (Line) context.storedNode2;
+        	Line line3 = (Line) context.storedNode3;
+
+        	CubicCurve curve = new CubicCurve(line1.getStartX(), line1.getStartY(), line2.getStartX() ,line2.getStartY(),
+        			line3.getStartX(), line3.getStartY() ,event.getX(), event.getY());
+            curve.setStrokeWidth(context.menuBox.getThiccness());
+            curve.setStroke(context.colorPicker.getColor());
+            //this line turns the whole curve to transparent we want to it have it so it the middle is clear
+            curve.setFill(null);
+            this.getChildren().add(curve);
+            context.resetLastClick();
         }
     }
 }

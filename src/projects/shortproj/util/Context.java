@@ -29,6 +29,9 @@ public class Context {
 	public int clickCount;
 	public Group storedGroup;
 	public Node storedNode;
+	public Node storedNode1;
+	public Node storedNode2;
+	public Node storedNode3;
 	public Transform transform;
 
 	public Context(Stage primaryStage) {
@@ -64,6 +67,13 @@ public class Context {
 		storedGroup = null;
 		storedNode = null;
 		transform = null;
+		
+		if (storedNode1 != null) surface.getChildren().remove(storedNode1);
+		storedNode1 = null;
+		if (storedNode2 != null) surface.getChildren().remove(storedNode2);
+		storedNode2 = null;
+		if (storedNode3 != null) surface.getChildren().remove(storedNode3);
+		storedNode3 = null;
 	}
 	
 	public void refreshZ() {
