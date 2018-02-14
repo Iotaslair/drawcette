@@ -62,7 +62,8 @@ public class DrawingSurface extends Pane {
                                     break;
                     case "curve":   curveClick(event);
                                     break;
-
+                    case "copy": 	copyClick(event);
+                    				break;
                     default:     System.out.println("Don't know what to do with this click.");
                                  break;
                 }
@@ -122,10 +123,119 @@ public class DrawingSurface extends Pane {
                                     break;
                     case "curve":	curveMove(event);
                     				break;
+                    case "copy":	copyMove(event);
+                    				break;
                 }
                 context.refreshZ();
             }
         });
+    }
+    
+    public void copyClick(MouseEvent event) {
+    	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface) && context.clickCount == 0) {
+    		context.clickCount++;
+
+            Node node = (Node) event.getTarget();
+            Node copy = null;
+            
+            if(node.getParent() instanceof Group) {
+            	Group group = (Group) node.getParent();
+            	copy = new Group();
+            	
+            	for (Node child : group.getChildren()) {
+            		if (child instanceof Shape) 
+            			((Group) copy).getChildren().add(copyShape((Shape) child));
+            		else 
+            			System.out.println("Could not copy a node in the group");
+            	}
+            	
+            	copy.setTranslateX(group.getTranslateX());
+            	copy.setTranslateY(group.getTranslateY());
+            	copy.setRotate(group.getRotate());
+            	copy.setScaleX(group.getScaleX());
+            	copy.setScaleY(group.getScaleY());
+            
+            	context.sidebarRight.items.add(new ElementGroup((Group) copy, "Group " + ++groupID));
+            } else if (node instanceof Shape){
+            	copy = copyShape((Shape) node);
+            } else {
+            	System.out.println("Given node is not a shape. Can not copy.");
+            	return;
+            }
+            
+        	this.getChildren().add(copy);
+    		context.storedNode = copy;            
+            
+    		context.storedx = copy.getTranslateX() - event.getX();
+    		context.storedy = copy.getTranslateY() - event.getY();
+    		
+        } else if (context.clickCount == 1) {
+    		context.resetLastClick();
+    	}
+    }
+    
+    public Shape copyShape(Shape node) {
+    	Shape outNode;
+    	if(node instanceof Line) {
+    		Line newNode = new Line();
+    		newNode.setStartX(((Line) node).getStartX());
+    		newNode.setStartY(((Line) node).getStartY());
+    		newNode.setEndX(((Line) node).getEndX());
+    		newNode.setEndY(((Line) node).getEndY());
+    		outNode = newNode;
+    	} else if (node instanceof Circle) {
+    		Circle newNode = new Circle();
+    		newNode.setCenterX(((Circle) node).getCenterX());
+    		newNode.setCenterY(((Circle) node).getCenterY());
+    		newNode.setRadius(((Circle) node).getRadius());
+    		outNode = newNode;
+    	} else if (node instanceof Rectangle) {
+    		Rectangle newNode = new Rectangle();
+    		newNode.setX(((Rectangle) node).getX());
+    		newNode.setY(((Rectangle) node).getY());
+    		newNode.setHeight(((Rectangle) node).getHeight());
+    		newNode.setWidth(((Rectangle) node).getWidth());
+    		outNode = newNode;
+    	} else if (node instanceof Path) {
+    		Path newNode = new Path();
+    		newNode.getElements().addAll(((Path) node).getElements());
+    		outNode = newNode;
+    	} else if (node instanceof Text) {
+    		Text newNode = new Text();
+    		newNode.setText(((Text) node).getText());
+    		newNode.setX(((Text) node).getX());
+    		newNode.setY(((Text) node).getY());
+    		outNode = newNode;
+    	}  else if (node instanceof CubicCurve) {
+    		CubicCurve curve = (CubicCurve) node;
+    		CubicCurve newNode = new CubicCurve(curve.getStartX(), curve.getStartY(), curve.getControlX1(),
+    				curve.getControlY1(), curve.getControlX2(), curve.getControlY2(), curve.getEndX(), curve.getEndY());
+    		outNode = newNode;
+    	} else {
+    		System.out.println("That object is not supported for copying yet.");
+    		return null;
+    	}
+    	Shape copy = (Shape) outNode;
+    		
+		copy.setStroke(((Shape) node).getStroke());
+		copy.setStrokeWidth(((Shape) node).getStrokeWidth());
+		copy.setRotate(((Shape) node).getRotate());
+		copy.setTranslateX(((Shape) node).getTranslateX());
+		copy.setTranslateY(((Shape) node).getTranslateY());
+		copy.setScaleX(((Shape) node).getScaleX());
+		copy.setScaleY(((Shape) node).getScaleY());
+		copy.setFill(((Shape) node).getFill());
+		
+		return copy;
+    }
+    
+    public void copyMove(MouseEvent event) {
+        if (context.storedNode != null && context.clickCount == 1) {
+        	Node node = context.storedNode;
+        
+        	node.setTranslateX(event.getX() + context.storedx);
+        	node.setTranslateY(event.getY() + context.storedy);
+        }
     }
     
     public void freeHandDraw(MouseEvent event) {
@@ -353,6 +463,9 @@ public class DrawingSurface extends Pane {
                 node.setTranslateX(node.getTranslateX() + node.getParent().getTranslateX());
                 node.setTranslateY(node.getTranslateY() + node.getParent().getTranslateY());
                 node.setRotate(node.getRotate() + node.getParent().getRotate());
+                node.setScaleX(node.getScaleX() + node.getParent().getScaleX());
+                node.setScaleY(node.getScaleY() + node.getParent().getScaleY());
+
                 node.setEffect(null);
                 Group group = (Group) node.getParent();
                 this.getChildren().add(node);
@@ -407,8 +520,8 @@ public class DrawingSurface extends Pane {
             Node node = (Node) event.getTarget();
             if(node.getParent() instanceof Group) node = node.getParent(); //Shouldn't this be enclose and marked out with {}?
             
-            context.storedx = node.getTranslateX() - event.getSceneX();
-            context.storedy = node.getTranslateX() - event.getSceneY();
+            context.storedx = node.getTranslateX() - event.getX();
+            context.storedy = node.getTranslateX() - event.getY();
         }
     }
     
@@ -417,8 +530,8 @@ public class DrawingSurface extends Pane {
             Node node = (Node) event.getTarget();
             if(node.getParent() instanceof Group) node = node.getParent(); //Is this suppose to be enclosed in the if?
             
-            node.setTranslateX(event.getSceneX() + context.storedx);
-            node.setTranslateY(event.getSceneY() + context.storedy);
+            node.setTranslateX(event.getX() + context.storedx);
+            node.setTranslateY(event.getY() + context.storedy);
         }
     }
     
@@ -489,15 +602,6 @@ public class DrawingSurface extends Pane {
         context.storedx = -1;
         context.storedy = -1;
     }
-
-    double startX;
-    double startY;
-    double C1X;
-    double C1Y;
-    double C2X;
-    double C2Y;
-    double EX;
-    double EY;
 
     public void curveMove(MouseEvent event) {
     	if (context.clickCount == 1 && context.storedNode1 instanceof Line) {

@@ -90,11 +90,17 @@ public final class SideBar extends VBox {
         btnCurve.setPrefSize(80,25);
         btnCurve.setUserData("curve");
         btnCurve.setOnAction(getContextClear());
+        
+        ToggleButton btnCopy = new ToggleButton("Copy");
+        btnCopy.setToggleGroup(context.toolGroup);
+        btnCopy.setPrefSize(80,25);
+        btnCopy.setUserData("copy");
+        btnCopy.setOnAction(getContextClear());
                 
         // Add all elements to the toolbar
         this.getChildren().addAll(toolsLabel1, btnHandDraw, lblThickness, thiccness,
         		toolsLabel2, btnLine, btnCurve, btnSquare, btnCircle, btnHandDraw2, toolsLabel3,
-                btnMove, btnRotate, btnDelete);
+                btnMove, btnRotate, btnCopy, btnDelete);
 	}
 	
 	public double getThiccness() {
