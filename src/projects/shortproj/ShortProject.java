@@ -5,7 +5,6 @@ import projects.shortproj.util.Context;
 import javafx.application.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.*;
 
 public class ShortProject extends Application {
 	

@@ -57,7 +57,6 @@ public class Context {
         root.setRight(sidebarRight);
         root.setBottom(colorPicker);
         root.setCenter(surface);
-        root.relocate(root.getWidth() - menuBox.getWidth(), root.getHeight() - menuBox.getHeight());
 	}
 	
 	public void resetLastClick() {
