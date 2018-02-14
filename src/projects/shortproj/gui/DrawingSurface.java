@@ -41,8 +41,8 @@ public class DrawingSurface extends Pane {
                 String depressedButton = context.menuBox.getDepressedButtonGroup1();
                 
                 switch (depressedButton) {
-                    case "freehand": freeHandDraw(event);
-                                    break;
+                    case "freehand": 	freeHandDraw(event);
+                                    	break;
                     case "line":    lineClick(event);
                                     break;
                     case "rect":    rectangleClick(event);
