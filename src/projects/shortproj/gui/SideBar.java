@@ -84,6 +84,12 @@ public final class SideBar extends VBox {
         btnRotate.setPrefSize(80, 25);
         btnRotate.setUserData("rotate");
         btnRotate.setOnAction(getContextClear());
+
+        ToggleButton btnCurve = new ToggleButton("Curve");
+        btnCurve.setToggleGro,p(context.toolGroup);
+        btnCurve.setPrefSize(80,25);
+        btnCurve.setUserData("curve");
+        btnCurve.setOnAction(getContextClear());
                 
         // Add all elements to the toolbar
         this.getChildren().addAll(toolsLabel1, btnHandDraw, lblThickness, thiccness,
