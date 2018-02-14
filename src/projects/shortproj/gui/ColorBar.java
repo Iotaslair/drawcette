@@ -27,7 +27,7 @@ public class ColorBar extends HBox {
 		this.context = context;
 		
 		// Set up the panel
-        this.setPadding(new Insets(20, 20, 15, 15));
+        this.setPadding(new Insets(15));
         this.setSpacing(10);
         this.setStyle("-fx-background-color: #444;");
         

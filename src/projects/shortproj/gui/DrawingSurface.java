@@ -64,7 +64,7 @@ public class DrawingSurface extends Pane {
                     default:     System.out.println("Don't know what to do with this click.");
                                  break;
                 }
-                //context.refreshZ();
+                context.refreshZ();
             }
         });
         
@@ -83,7 +83,7 @@ public class DrawingSurface extends Pane {
                     case "new_group":   newGroupDrag(event);
                                         break;
                 }
-                //context.refreshZ();
+                context.refreshZ();
             }
         });
         
@@ -99,7 +99,7 @@ public class DrawingSurface extends Pane {
                     case "new_group":   newGroupRelease(event);
                                         break;
                 }
-                //context.refreshZ();
+                context.refreshZ();
             }
         });
         
@@ -119,6 +119,7 @@ public class DrawingSurface extends Pane {
                     case "circle":  circleMove(event);
                                     break;
                 }
+                context.refreshZ();
             }
         });
     }
@@ -137,7 +138,6 @@ public class DrawingSurface extends Pane {
     
     public void freeHandDrawDrag(MouseEvent event) {
         path.getElements().add(new LineTo(event.getX(), event.getY()));
-        context.refreshZ();
     }
         
     public void addClick(MouseEvent event) { //Does this add things to a group?
@@ -149,8 +149,7 @@ public class DrawingSurface extends Pane {
                 ElementGroup activeGroup = context.sidebarRight.getActiveGroup();
                 if (!activeGroup.getGroupName().equals("none")) {
                     activeGroup.getGroup().getChildren().add(node);
-                    activeGroup.highlight();
-            
+                    activeGroup.highlight();            
                 }
             }
         }
