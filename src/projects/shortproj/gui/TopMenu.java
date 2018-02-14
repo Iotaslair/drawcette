@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -19,52 +20,40 @@ import java.util.Optional;
 
 import javax.imageio.ImageIO;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.Group;
 import javafx.scene.SnapshotParameters;
 import java.awt.image.BufferedImage;
 
+//Print additions
+import javafx.print.*;
+import javafx.scene.Node;
+import javafx.scene.transform.Scale;
+
 import projects.shortproj.util.Context;
+import projects.shortproj.util.ElementGroup;
 
 public final class TopMenu extends MenuBar {
+	
+	Context context;
 
+    Printer printer = Printer.getDefaultPrinter();   //Grabs the default printer
 	public TopMenu(Context context) {     
-        // Create menus
-        Menu newMenu = new Menu("New");
-        Menu saveMenu = new Menu("Save");
-        Menu loadMenu = new Menu("Load");
-        Menu printMenu = new Menu("Print");
-        Menu exitMenu = new Menu("Exit");
+        this.context = context;
+		
+		// Create menus		
+        Menu newMenu = new Menu("");
+        Menu saveMenu = new Menu("");
+        Menu loadMenu = new Menu("");
+        Menu printMenu = new Menu("");
+        Menu exitMenu = new Menu("");
         
-        onAction(exitMenu);
-        exitMenu.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-            	Alert alert = new Alert(AlertType.CONFIRMATION);
-            	alert.setTitle("Warning Dialog");
-            	alert.setHeaderText("Exiting Program");
-            	alert.setContentText("All unsaved work will be lost. "
-            			+ "Are you sure that you want to continue?");
-
-            	Optional<ButtonType> result = alert.showAndWait();
-            	if (result.get() != ButtonType.OK)
-            	    return;
-                Platform.exit();
-            }
-        });
+        setOnAction(newMenu, "New");
+        setOnAction(saveMenu, "Save");
+        setOnAction(loadMenu, "Load");
+        setOnAction(printMenu, "Print");
+        setOnAction(exitMenu, "Exit");
         
-        onAction(loadMenu);
-        loadMenu.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                load(context.stage, context.surface);
-            }
-        });
-
-        onAction(saveMenu);
-        saveMenu.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle (ActionEvent e){
-                save(context.stage, context.surface);
-            }
-
-        });
-
         // Add Menus to the MenuBar
         this.getMenus().addAll(newMenu, saveMenu, loadMenu, printMenu, exitMenu);
 	}
@@ -108,7 +97,19 @@ public final class TopMenu extends MenuBar {
         }
     }
 
-
+    public void exit() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Warning Dialog");
+		alert.setHeaderText("Exiting Program");
+		alert.setContentText("All unsaved work will be lost. "
+				+ "Are you sure that you want to continue?");
+	
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() != ButtonType.OK)
+		    return;
+	    Platform.exit();
+    }
+    
     public void save(Stage primaryStage, DrawingSurface pane)
     {
         FileChooser fileChooser = new FileChooser();
@@ -152,5 +153,69 @@ public final class TopMenu extends MenuBar {
             	System.out.println("Exception!");
             }  
         }
+    }
+    
+    public void print(Node printTarget){
+    	PrinterJob printing = PrinterJob.createPrinterJob(); //Creates a print request for the default system Printer.
+                                                            //Returns null if there isn't any default print
+    	PageLayout layOut = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
+    	//Above line creates the printed page's default values
+    	double scaleX = layOut.getPrintableWidth()/printTarget.getBoundsInParent().getWidth();  //Scales image to page
+    	double scaleY = layOut.getPrintableHeight()/printTarget.getBoundsInParent().getHeight();
+    	Scale scaled = new Scale(scaleX, scaleY);
+    	printTarget.getTransforms().add(scaled);  //Scales image
+    	if(printing !=null){
+    		boolean finished = printing.printPage(printTarget); //Check if printing is successful. 
+    		if (finished) {
+    			printing.endJob(); //Ends Print
+    		}
+    	}
+    	printTarget.getTransforms().remove(scaled);  //Unscales image
+    }
+    
+    public void createNew() {
+    	// Give a warning message.
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Warning Dialog");
+		alert.setHeaderText("Clearing Canvas");
+		alert.setContentText("This will clear the canvas, are you sure?");
+	
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() != ButtonType.OK)
+		    return;
+		
+		// Remove all elements on the canvas and all groups in the sidebar.
+	    context.surface.getChildren().removeAll(context.surface.getChildren());
+	    context.sidebarRight.items.removeAll(context.sidebarRight.items);
+	    
+	    // Add back in the background group.
+        ElementGroup background = new ElementGroup(new Group(), "- None -");
+        context.sidebarRight.items.add(background);
+    }
+    
+    // Create a label and put it on top of the menu item.
+    // Make the label call the correct function on mouseclick.
+    private void setOnAction(Menu menu, String action) {
+	    Label menuLabel = new Label(action);
+	    menuLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	    	String str = action;
+	    	
+	        @Override
+	        public void handle(MouseEvent event) {
+	        	switch (str) {
+	        	case "Load": 	load(context.stage, context.surface);
+	        					break;
+	        	case "Save":	save(context.stage, context.surface);
+	        					break;
+	        	case "Exit":	exit();
+	        					break;
+	        	case "New":		createNew();
+	        					break;
+	        	case "Print":	print(context.surface);
+	        					break;
+       }
+	        }
+	    });
+	    menu.setGraphic(menuLabel);
     }
 }
