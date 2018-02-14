@@ -1,4 +1,4 @@
-package projects.shortproj.gui;
+package gui;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -22,10 +22,16 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.SnapshotParameters;
 import java.awt.image.BufferedImage;
 
+//Print additions
+import javafx.print.*;
+import javafx.scene.Node;
+import javafx.scene.transform.Scale;
+
 import projects.shortproj.util.Context;
 
 public final class TopMenu extends MenuBar {
 
+    Printer printer = Printer.getDefaultPrinter();   //Grabs the default printer
 	public TopMenu(Context context) {     
         // Create menus
         Menu newMenu = new Menu("New");
@@ -65,6 +71,14 @@ public final class TopMenu extends MenuBar {
 
         });
 
+        onAction(printMenu);
+        printMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle (ActionEvent e){
+                print(context.surface);
+            }
+
+        });
+        
         // Add Menus to the MenuBar
         this.getMenus().addAll(newMenu, saveMenu, loadMenu, printMenu, exitMenu);
 	}
@@ -152,5 +166,24 @@ public final class TopMenu extends MenuBar {
             	System.out.println("Exception!");
             }  
         }
+    }
+    
+    public void print(Node printTarget){
+       PrinterJob printing = PrinterJob.createPrinterJob(); //Creates a print request for the default system Printer.
+                                                            //Returns null if there isn't any default print
+       PageLayout layOut = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
+       //Above line creates the printed page's default values
+       double scaleX = layOut.getPrintableWidth()/printTarget.getBoundsInParent().getWidth();  //Scales image to page
+       double scaleY = layOut.getPrintableHeight()/printTarget.getBoundsInParent().getHeight();
+       Scale scaled = new Scale(scaleX, scaleY);
+       printTarget.getTransforms().add(scaled);  //Scales image
+       if(printing !=null){
+         boolean finished = printing.printPage(printTarget); //Check if printing is successful. 
+         if (finished) {
+            printing.endJob();
+         }
+        }
+       printTarget.getTransforms().remove(scaled);  //Unscales image
+       //}
     }
 }
