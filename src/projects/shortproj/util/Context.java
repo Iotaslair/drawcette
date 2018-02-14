@@ -67,9 +67,9 @@ public class Context {
 	}
 	
 	public void refreshZ() {
-		this.menuBar.toFront();
 		this.menuBox.toFront();
 		this.sidebarRight.toFront();
+		this.menuBar.toFront();
 		this.colorPicker.toFront();
 	}
 }
