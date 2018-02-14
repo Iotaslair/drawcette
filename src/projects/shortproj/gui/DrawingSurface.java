@@ -521,6 +521,7 @@ public class DrawingSurface extends Pane {
         if (context.clickCount == 0)
         {
             Line line1 = new Line();
+            line1.setStroke(context.colorPicker.getColor());
             line1.setStartX(event.getX());
             line1.setStartY(event.getY());
             line1.setEndX(event.getX());
@@ -533,6 +534,7 @@ public class DrawingSurface extends Pane {
         else if (context.clickCount == 1)
         {
         	Line line2 = new Line();
+            line2.setStroke(context.colorPicker.getColor());
         	line2.setStartX(event.getX());
         	line2.setStartY(event.getY());
             line2.setEndX(event.getX());
@@ -545,6 +547,7 @@ public class DrawingSurface extends Pane {
         else if (context.clickCount == 2)
         {
         	Line line3 = new Line();
+            line3.setStroke(context.colorPicker.getColor());
         	line3.setStartX(event.getX());
         	line3.setStartY(event.getY());
             line3.setEndX(event.getX());
@@ -559,6 +562,9 @@ public class DrawingSurface extends Pane {
         	Line line1 = (Line) context.storedNode1;
         	Line line2 = (Line) context.storedNode2;
         	Line line3 = (Line) context.storedNode3;
+            
+            
+            
 
         	CubicCurve curve = new CubicCurve(line1.getStartX(), line1.getStartY(), line2.getStartX() ,line2.getStartY(),
         			line3.getStartX(), line3.getStartY() ,event.getX(), event.getY());
