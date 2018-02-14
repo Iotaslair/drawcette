@@ -60,4 +60,11 @@ public class Context {
 		storedNode = null;
 		transform = null;
 	}
+	
+	public void refreshZ() {
+		this.menuBar.toFront();
+		this.menuBox.toFront();
+		this.colorPicker.toFront();
+		this.sidebarRight.toFront();
+	}
 }

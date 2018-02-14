@@ -1,4 +1,4 @@
-package gui;
+package projects.shortproj.gui;
 
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -66,6 +66,7 @@ public class DrawingSurface extends Pane {
                     default:     System.out.println("Don't know what to do with this click.");
                                  break;
                 }
+                context.refreshZ();
             }
         });
         
@@ -77,12 +78,14 @@ public class DrawingSurface extends Pane {
                 
                 switch (depressedButton) {
                     case "drag":    dragDrag(event);
+                    				context.refreshZ();	
                                     break;
                     case "freehand":    freeHandDrawDrag(event);
                                         break;
                     case "new_group":   newGroupDrag(event);
                                         break;
                 }
+                context.refreshZ();
             }
         });
         
@@ -98,6 +101,7 @@ public class DrawingSurface extends Pane {
                     case "new_group":   newGroupRelease(event);
                                         break;
                 }
+                context.refreshZ();
             }
         });
         
@@ -116,8 +120,8 @@ public class DrawingSurface extends Pane {
                                     break;
                     case "circle":  circleMove(event);
                                     break;
-
                 }
+                context.refreshZ();
             }
         });
     }

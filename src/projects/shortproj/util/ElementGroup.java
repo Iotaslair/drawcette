@@ -9,7 +9,6 @@ import javafx.scene.shape.Shape;
 public class ElementGroup {
 	private Group group;
 	private String groupName;
-	private Paint[] colors;
 	private DropShadow highlight;
 	
 	public void setGroup(Group g) {
@@ -22,7 +21,7 @@ public class ElementGroup {
 		group.setAccessibleText(groupName);
 		
 		highlight = new DropShadow();
-		Color color = Color.rgb(255, 233, 0);
+		Color color = Color.rgb(255, 0, 0);
 		highlight.setColor(color);
 		highlight.setOffsetX(0f);
 		highlight.setOffsetY(0f);

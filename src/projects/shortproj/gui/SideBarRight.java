@@ -34,40 +34,37 @@ public final class SideBarRight extends VBox {
         this.setStyle("-fx-background-color: #336699;");
                 
         // Buttons
-        HBox btnPanel = new HBox();
-        btnPanel.setSpacing(10);
+        HBox btnPanel1 = new HBox();
+        btnPanel1.setSpacing(10);
+        HBox btnPanel2 = new HBox();
+        btnPanel2.setSpacing(10);
+        Label lblExistingGroups = new Label("Add/Remove To Existing");
+        lblExistingGroups.setTextFill(Color.WHITE);
         
-        ToggleButton btnNewGroup = new ToggleButton("New");
+        ToggleButton btnNewGroup = new ToggleButton("New Group");
         btnNewGroup.setToggleGroup(context.toolGroup);
-        btnNewGroup.setPrefSize(60, 25);
+        btnNewGroup.setPrefSize(80, 25);
         btnNewGroup.setUserData("new_group");
         btnNewGroup.setOnAction(getContextClear());
         
-        ToggleButton btnRemoveGroup = new ToggleButton("Remove");
-        btnRemoveGroup.setToggleGroup(context.toolGroup);
-        btnRemoveGroup.setPrefSize(80, 25);
-        btnRemoveGroup.setUserData("remove");
-        btnRemoveGroup.setOnAction(getContextClear());
-
-        // Horizontal box for buttons
-        btnPanel.getChildren().addAll(btnNewGroup, btnRemoveGroup);
-        
-        HBox btnPanel2 = new HBox();
-        btnPanel2.setSpacing(10);
-        
-        ToggleButton btnAddToGroup = new ToggleButton("Add");
-        btnAddToGroup.setToggleGroup(context.toolGroup);
-        btnAddToGroup.setPrefSize(80, 25);
-        btnAddToGroup.setUserData("add");
-        btnAddToGroup.setOnAction(getContextClear());
-        
-        ToggleButton btnDisbandGroup = new ToggleButton("disband");
-        btnDisbandGroup.setPrefSize(80, 25);
+        ToggleButton btnDisbandGroup = new ToggleButton("Disband");
+        btnDisbandGroup.setToggleGroup(context.toolGroup);
+        btnDisbandGroup.setPrefSize(60, 25);
         btnDisbandGroup.setUserData("disband");
         btnDisbandGroup.setOnAction(getDisband());
-        
-        btnPanel2.getChildren().addAll(btnAddToGroup, btnDisbandGroup);
 
+        ToggleButton btnAddToGroup = new ToggleButton("Add");
+        btnAddToGroup.setToggleGroup(context.toolGroup);
+        btnAddToGroup.setPrefSize(70, 25);
+        btnAddToGroup.setUserData("add");
+        btnAddToGroup.setOnAction(getContextClear());
+
+        ToggleButton btnRemoveFromGroup = new ToggleButton("Remove");
+        btnRemoveFromGroup.setToggleGroup(context.toolGroup);
+        btnRemoveFromGroup.setPrefSize(70, 25);
+        btnRemoveFromGroup.setUserData("remove");
+        btnRemoveFromGroup.setOnAction(getContextClear());
+                
         // List of groups
         Label groupListLabel = new Label("Groups");
         groupListLabel.setTextFill(Color.WHITE);
@@ -75,7 +72,8 @@ public final class SideBarRight extends VBox {
         list.setPrefSize(150, 200);                
         list.setItems(items);
         
-        ElementGroup background = new ElementGroup(new Group(), "none");
+        // Default element for no group selection
+        ElementGroup background = new ElementGroup(new Group(), "- None -");
         items.add(background);
         
         // Make groups Highlight upon selection.
@@ -86,8 +84,12 @@ public final class SideBarRight extends VBox {
                 }
          });
         
+        // Horizontal box for buttons
+        btnPanel1.getChildren().addAll(btnNewGroup, btnDisbandGroup);
+        btnPanel2.getChildren().addAll(btnAddToGroup, btnRemoveFromGroup);
+        
         // Add list to sidebar
-        this.getChildren().addAll(groupListLabel, list, btnPanel, btnPanel2);
+        this.getChildren().addAll(groupListLabel, list, btnPanel1, lblExistingGroups, btnPanel2);
 	}
 
 	private EventHandler<ActionEvent> getContextClear() {
