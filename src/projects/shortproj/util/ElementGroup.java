@@ -1,4 +1,4 @@
-package util;
+package projects.shortproj.util;
 
 import javafx.scene.*;
 import javafx.scene.effect.DropShadow;
