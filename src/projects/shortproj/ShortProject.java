@@ -17,7 +17,7 @@ public class ShortProject extends Application {
         
         Scene scene = new Scene(context.root, 1200, 800);
         
-        primaryStage.setTitle("Photopoop v.0.0.1");
+        primaryStage.setTitle("Photopoop v.0.0.2 \"Finally Got An Update\" update");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
