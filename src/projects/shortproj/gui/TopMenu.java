@@ -180,7 +180,7 @@ public final class TopMenu extends MenuBar {
        if(printing !=null){
          boolean finished = printing.printPage(printTarget); //Check if printing is successful. 
          if (finished) {
-            printing.endJob();
+            printing.endJob(); //Ends Print
          }
         }
        printTarget.getTransforms().remove(scaled);  //Unscales image
