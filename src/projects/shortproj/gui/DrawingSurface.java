@@ -62,6 +62,8 @@ public class DrawingSurface extends Pane {
                                     break;
                     case "copy": 	copyClick(event);
                     				break;
+                    case "scale":	scaleClick(event);
+                    				break;
                     default:     System.out.println("Don't know what to do with this click.");
                                  break;
                 }
@@ -123,12 +125,44 @@ public class DrawingSurface extends Pane {
                     				break;
                     case "copy":	copyMove(event);
                     				break;
+                    case "scale":	scaleMove(event);
+                    				break;
                 }
                 context.refreshZ();
             }
         });
     }
     
+    public void scaleClick(MouseEvent event) {
+    	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface) && context.clickCount == 0) {
+    		context.clickCount++;
+    		
+            Node node = (Node) event.getTarget();
+           
+            if (node.getParent() instanceof Group) 
+            	node = node.getParent();
+            
+            // Need to save mouseclick point and origonal scalling.
+            context.storedNode = node;
+    		context.storedx = event.getY();
+    		context.storedy = event.getY();
+    		context.extrax = node.getScaleX();
+    		context.extray = node.getScaleY();
+    		
+    	} else if (context.clickCount != 0) {
+    		context.resetLastClick();
+    	}
+    }
+    
+    public void scaleMove(MouseEvent event) {
+    	if (context.clickCount == 1 && context.storedNode != null) {
+    		// Perform scaling with respect to the change in mouse Y position sense the first click.
+    		context.storedNode.setScaleX(context.extrax + Math.exp((context.storedy - event.getY())/50.0f) - 1);
+    		context.storedNode.setScaleY(context.extray + Math.exp((context.storedy - event.getY())/50.0f) - 1);
+    	}
+    }
+    
+    // Copies the node / group that has been clicked on.
     public void copyClick(MouseEvent event) {
     	if(event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface) && context.clickCount == 0) {
     		context.clickCount++;
@@ -172,6 +206,7 @@ public class DrawingSurface extends Pane {
     	}
     }
     
+    // Helper function that does the copying of each shape.
     public Shape copyShape(Shape node) {
     	Shape outNode;
     	if(node instanceof Line) {

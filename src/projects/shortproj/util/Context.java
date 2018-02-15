@@ -25,6 +25,9 @@ public class Context {
 
 	public double storedx;
 	public double storedy;
+	
+	public double extrax;
+	public double extray;
 	public boolean firstClick;
 	public int clickCount;
 	public Group storedGroup;
