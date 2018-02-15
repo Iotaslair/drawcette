@@ -718,8 +718,15 @@ public class DrawingSurface extends Pane {
         //thing wanting to be changed
         Node node = (Node) event.getTarget();
         //converts node to a shape
+        try
+        {
         Shape fillShape = (Shape) node;
         //sets color
         fillShape.setFill(context.colorPicker.getColor());
+        }
+        catch (Exception e)
+        {
+            System.out.println("Don't know what to do with this click.");
+        }
     }
 }
