@@ -664,8 +664,6 @@ public class DrawingSurface extends Pane {
         	Line line2 = (Line) context.storedNode2;
         	Line line3 = (Line) context.storedNode3;
             
-            
-            
 
         	CubicCurve curve = new CubicCurve(line1.getStartX(), line1.getStartY(), line2.getStartX() ,line2.getStartY(),
         			line3.getStartX(), line3.getStartY() ,event.getX(), event.getY());
