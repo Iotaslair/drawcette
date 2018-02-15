@@ -27,7 +27,7 @@ public class ColorBar extends HBox {
 
     public HBox btnPanel = new HBox();
     public Button btnZoomIn = new Button("+");
-    public Button btnZoomOut = new Button("–");
+    public Button btnZoomOut = new Button("-");
     public Button btnResetZoom = new Button("R");
     
 	public ColorBar(Context context) {
