@@ -115,11 +115,17 @@ public final class SideBar extends VBox {
         btnScale.setOnAction(getContextClear());
         btnScale.setTooltip(new Tooltip("Click on node or group and then move mouse up or down to scale it."));
         
+        ToggleButton btnFill = new ToggleButton("Fill");
+        btnFill.setToggleGroup(context.toolGroup);
+        btnFill.setPrefSize(80,25);
+        btnFill.setUserData("fill");
+        btnFill.setOnAction(getContextClear());
+        btnFill.setTooltip(new Tooltip("Click to fill in a shape with the selected color"));
                 
         // Add all elements to the toolbar
         this.getChildren().addAll(toolsLabel1, btnHandDraw, lblThickness, thiccness,
         		toolsLabel2, btnLine, btnCurve, btnSquare, btnCircle, btnText, toolsLabel3,
-                btnMove, btnRotate, btnCopy, btnDelete, btnScale);
+                btnMove, btnRotate, btnCopy, btnDelete, btnScale, btnFill);
 	}
 	
 	public double getThiccness() {

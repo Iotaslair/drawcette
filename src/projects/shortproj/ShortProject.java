@@ -41,7 +41,7 @@ public class ShortProject extends Application {
         
         Scene scene = new Scene(root, 1200, 800);
         
-        primaryStage.setTitle("Photopoop v.0.0.3 // The Anchor Pane Edition");
+        primaryStage.setTitle("Photopoop v.0.0.3 // Shapes can be LIKE filled dude Edition");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

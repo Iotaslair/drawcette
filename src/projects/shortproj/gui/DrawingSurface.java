@@ -64,8 +64,10 @@ public class DrawingSurface extends Pane {
                     				break;
                     case "scale":	scaleClick(event);
                     				break;
-                    default:     System.out.println("Don't know what to do with this click.");
-                                 break;
+                    case "fill":    fill(event);
+                                    break;
+                    default:        System.out.println("Don't know what to do with this click.");
+                                    break;
                 }
                 context.refreshZ();
             }
@@ -709,5 +711,15 @@ public class DrawingSurface extends Pane {
             this.getChildren().add(curve);
             context.resetLastClick();
         }
+    }
+
+    public void fill(MouseEvent event)
+    {
+        //thing wanting to be changed
+        Node node = (Node) event.getTarget();
+        //converts node to a shape
+        Shape fillShape = (Shape) node;
+        //sets color
+        fillShape.setFill(context.colorPicker.getColor());
     }
 }
