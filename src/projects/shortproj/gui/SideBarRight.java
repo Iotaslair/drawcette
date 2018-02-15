@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -45,24 +46,29 @@ public final class SideBarRight extends VBox {
         btnNewGroup.setPrefSize(80, 25);
         btnNewGroup.setUserData("new_group");
         btnNewGroup.setOnAction(getContextClear());
+        btnNewGroup.setTooltip(new Tooltip("Click and drag for a selection box. All un-grouped nodes in the box will be added to a new group."));
         
         ToggleButton btnDisbandGroup = new ToggleButton("Disband");
         btnDisbandGroup.setToggleGroup(context.toolGroup);
         btnDisbandGroup.setPrefSize(60, 25);
         btnDisbandGroup.setUserData("disband");
         btnDisbandGroup.setOnAction(getDisband());
+        btnDisbandGroup.setTooltip(new Tooltip("Disbands a group. Leaves the nodes in place, just no longer in a group."));
 
         ToggleButton btnAddToGroup = new ToggleButton("Add");
         btnAddToGroup.setToggleGroup(context.toolGroup);
         btnAddToGroup.setPrefSize(70, 25);
         btnAddToGroup.setUserData("add");
         btnAddToGroup.setOnAction(getContextClear());
+        btnAddToGroup.setTooltip(new Tooltip("Click on node to add it to selected group."));
 
         ToggleButton btnRemoveFromGroup = new ToggleButton("Remove");
         btnRemoveFromGroup.setToggleGroup(context.toolGroup);
         btnRemoveFromGroup.setPrefSize(70, 25);
         btnRemoveFromGroup.setUserData("remove");
         btnRemoveFromGroup.setOnAction(getContextClear());
+        btnRemoveFromGroup.setTooltip(new Tooltip("Click on node to remove it from it's group."));
+
                 
         // List of groups
         Label groupListLabel = new Label("Groups");
