@@ -23,12 +23,10 @@ public class DrawingSurface extends Pane {
     private int groupID;
     
     Group freeHand;
-    Path path;  
-    
-    public DrawingSurface(Context c) {
-        this.context = c;
+
+    public DrawingSurface(Context context) {
+        this.context = context;
         groupID = -1;
-        path = new Path();
 
         // Add an event handler to the pane that checks what button is pressed for what to do on mouseclick.
         this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -129,8 +127,8 @@ public class DrawingSurface extends Pane {
     }
     
     public void freeHandDraw(MouseEvent event) {
-        path = new Path();          //Shouldn't this be placed after the path has had its effects applied?
-        
+    	Path path = new Path();
+    	
         this.getChildren().add(path);
         
         path.setStrokeWidth(context.menuBox.getThiccness());
@@ -138,14 +136,16 @@ public class DrawingSurface extends Pane {
 
         path.getElements().clear();
         path.getElements().add(new MoveTo(event.getX(), event.getY()));
+        
+        context.storedNode = path;
     }
     
     public void freeHandDrawDrag(MouseEvent event) {
+    	Path path = (Path) context.storedNode;
         path.getElements().add(new LineTo(event.getX(), event.getY()));
     }
         
-    public void addClick(MouseEvent event) { //Does this add things to a group?
-        //instanceof checks if something is a instance of some class/interface
+    public void addClick(MouseEvent event) { 
         if (event.getTarget() instanceof Node && !(event.getTarget() instanceof DrawingSurface)) {
             Node node = (Node) event.getTarget();
             
@@ -163,8 +163,7 @@ public class DrawingSurface extends Pane {
      *  the line drawing process on that surface by one click.
      */
     public void lineClick(MouseEvent event) {
-        if (context.clickCount == 0){  //What is the point of the clickcount and resetContext? -> Used to check whether
-                                       //we're trying to click aand make something or click and grab something.
+        if (context.clickCount == 0){
             context.clickCount++;
             
             Line line = new Line();
@@ -224,8 +223,6 @@ public class DrawingSurface extends Pane {
 
             double deltax = event.getX() - context.storedx;  
             double deltay = event.getY() - context.storedy;
-            //How is the ontext.storedx and y used? If we set them everytime we make a new rectangle or circle, won't we
-            //keep checking the most recently created object which might not be the rectangle/circle we want?
             
             // Handle when the user moves the cursor above or to the left of the original point.
             if (deltax < 0) {

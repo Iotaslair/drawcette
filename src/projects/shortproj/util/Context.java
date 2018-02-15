@@ -35,11 +35,13 @@ public class Context {
 	public Transform transform;
 
 	public Context(Stage primaryStage) {
+		stage = primaryStage;
+		
 		menuBox = new SideBar(this);
         sidebarRight = new SideBarRight(this);
-        colorPicker = new ColorBar(this);
         surface = new DrawingSurface(this);
         menuBar = new TopMenu(this);
+        colorPicker = new ColorBar(this);
 
         // Set element sizes
         menuBar.setPrefHeight(25.0);
@@ -49,8 +51,6 @@ public class Context {
         
 		storedx = 0;
 		storedy = 0;
-		
-		stage = primaryStage;
 		
 		clickCount = 0;
 		firstClick = true;

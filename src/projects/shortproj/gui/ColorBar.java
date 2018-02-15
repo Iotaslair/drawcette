@@ -1,12 +1,14 @@
 package projects.shortproj.gui;
 
 import javafx.beans.value.*;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.layout.*;
 import projects.shortproj.util.Context;
 
@@ -23,6 +25,11 @@ public class ColorBar extends HBox {
     ToggleButton color7 = new ToggleButton();
     ToggleButton color8 = new ToggleButton();
 
+    public HBox btnPanel = new HBox();
+    public Button btnZoomIn = new Button("+");
+    public Button btnZoomOut = new Button("–");
+    public Button btnResetZoom = new Button("R");
+    
 	public ColorBar(Context context) {
 		this.context = context;
 		
@@ -73,14 +80,72 @@ public class ColorBar extends HBox {
         color8.setPrefSize(30, 30);
         color8.setStyle("-fx-base: white;");
         
-        this.getChildren().addAll(color1, color2, color3, color4, color5, color6, color7, color8);
+        btnZoomIn.setStyle("-fx-base: #336699;");
+        btnZoomIn.setTextFill(Color.WHITE);
+        btnZoomIn.setPrefSize(30, 30);
+        btnZoomIn.setFont(Font.font("Verdana", FontWeight.BOLD, 13));
+        btnZoomOut.setStyle("-fx-base: #336699;");
+        btnZoomOut.setTextFill(Color.WHITE);
+        btnZoomOut.setPrefSize(30, 30);
+        btnZoomOut.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+        btnResetZoom.setStyle("-fx-base: #336699;");
+        btnResetZoom.setTextFill(Color.WHITE);
+        btnResetZoom.setPrefSize(30, 30);
+        btnResetZoom.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+        btnResetZoom.setTooltip(new Tooltip("Resets zoom/scaling to 100%"));
         
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        Label lblZoom = new Label("Zoom:");
+        lblZoom.setTextFill(Color.WHITE);
+        lblZoom.setPadding(new Insets(6));
+        
+        btnPanel.setSpacing(5);
+        btnPanel.getChildren().addAll(lblZoom, btnZoomIn, btnZoomOut, btnResetZoom);
+        
+        // Add all elements to pane
+        this.getChildren().addAll(color1, color2, color3, color4, color5, color6, color7, color8, spacer, btnPanel);
+        
+        // Highlight selected color
         changeSelectedColorSize(color1, color1);
-        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             public void changed(ObservableValue<? extends Toggle> ov, Toggle toggle, Toggle new_toggle) {
         		changeSelectedColorSize(toggle, new_toggle);
         	}
         });
+        
+        // Handles zoom in
+    	btnZoomIn.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+            	context.surface.setScaleX(context.surface.getScaleX() + 0.1);
+            	context.surface.setScaleY(context.surface.getScaleY() + 0.1);
+            }
+    	});
+    	
+    	// Handles zoom out - won't zoom out past 0.1. 
+    	// Refreshes canvas size to the size of the screen for infinite canvas effect
+    	btnZoomOut.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+            	if (context.surface.getScaleX() > 0.2 && context.surface.getScaleY() > 0.2) {
+                	context.surface.setScaleX(context.surface.getScaleX() - 0.1);
+                	context.surface.setScaleY(context.surface.getScaleY() - 0.1);            		
+            	}
+            	double newSurfaceWidth = context.surface.getWidth() * 2;
+            	double newSurfaceHeight = context.surface.getHeight() * 2;
+            	context.surface.setPrefSize(newSurfaceWidth, newSurfaceHeight);
+            	System.out.println(newSurfaceWidth + " " + newSurfaceHeight);
+            }
+    	});
+    	
+    	btnResetZoom.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+            	context.surface.setScaleX(1);
+            	context.surface.setScaleY(1);
+            }
+    	});
 	}
 	
 	public Paint getColor() {
