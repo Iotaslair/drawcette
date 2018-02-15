@@ -153,7 +153,7 @@ public class DrawingSurface extends Pane {
             	copy.setScaleX(group.getScaleX());
             	copy.setScaleY(group.getScaleY());
             
-            	context.sidebarRight.items.add(new ElementGroup((Group) copy, "Group " + ++groupID));
+            	context.sidebarRight.addItem(new ElementGroup((Group) copy, "Group " + ++groupID));
             } else if (node instanceof Shape){
             	copy = copyShape((Shape) node);
             } else {
@@ -423,7 +423,7 @@ public class DrawingSurface extends Pane {
             // Check to make sure the group is not empty before adding it as a group.
             if (context.storedGroup.getChildren().size() != 0) {
                 this.getChildren().add(context.storedGroup);
-                context.sidebarRight.items.add(new ElementGroup(context.storedGroup, "Group " + ++groupID));
+                context.sidebarRight.addItem(new ElementGroup(context.storedGroup, "Group " + ++groupID));
             }
             this.getChildren().remove(context.storedNode);
             resetContext();

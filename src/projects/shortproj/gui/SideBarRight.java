@@ -11,9 +11,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 import projects.shortproj.util.Context;
 import projects.shortproj.util.ElementGroup;
 
@@ -73,6 +75,15 @@ public final class SideBarRight extends VBox {
         ElementGroup background = new ElementGroup(new Group(), "- None -");
         items.add(background);
         
+
+
+        list.setCellFactory(CheckBoxListCell.forListView(new Callback<ElementGroup, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(ElementGroup element) {
+                return element.hiddenProperty();
+            }
+        }));
+        
         // Make groups Highlight upon selection.
         list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ElementGroup>() {
             public void changed(ObservableValue<? extends ElementGroup> ov, ElementGroup old_val, ElementGroup new_val) {
@@ -131,5 +142,12 @@ public final class SideBarRight extends VBox {
 		// When group is now empty delete it.
 		context.surface.getChildren().remove(group);
 		this.items.remove(elementGroup);
+	}
+	
+	public void addItem(ElementGroup newItem) {
+		newItem.hiddenProperty().addListener((obs, wasHidden, isHidden) -> {
+			newItem.getGroup().setVisible(isHidden);
+		});
+		items.add(newItem);
 	}
 }
