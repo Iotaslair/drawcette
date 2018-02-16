@@ -1,4 +1,4 @@
-package gui;
+package projects.shortproj.gui;
 
 import javafx.application.Platform;
 import javafx.stage.FileChooser;

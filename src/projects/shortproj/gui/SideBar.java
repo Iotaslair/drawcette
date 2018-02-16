@@ -125,7 +125,7 @@ public final class SideBar extends VBox {
         // Add all elements to the toolbar
         this.getChildren().addAll(toolsLabel1, btnHandDraw, btnFill, lblThickness, thiccness,
         		toolsLabel2, btnLine, btnCurve, btnSquare, btnCircle, btnText, toolsLabel3,
-                btnMove, btnRotate, btnCopy, btnDelete, btnScale;
+                btnMove, btnRotate, btnCopy, btnDelete, btnScale);
 	}
 	
 	public double getThiccness() {
