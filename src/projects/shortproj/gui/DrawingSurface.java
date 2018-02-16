@@ -555,7 +555,7 @@ public class DrawingSurface extends Pane {
             if(node.getParent() instanceof Group) node = node.getParent(); //Shouldn't this be enclose and marked out with {}?
             
             context.storedx = node.getTranslateX() - event.getX();
-            context.storedy = node.getTranslateX() - event.getY();
+            context.storedy = node.getTranslateY() - event.getY();
         }
     }
     
