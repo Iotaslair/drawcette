@@ -727,7 +727,7 @@ public class DrawingSurface extends Pane {
         fillShape.setFill(context.colorPicker.getColor());
         }
         catch (Exception e){
-            System.out.println("Don't know what to do with this click.");
+            System.out.println("Cannot fill in this because it is not a shape.");
         }
     }
 }
