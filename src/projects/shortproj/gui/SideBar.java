@@ -120,7 +120,7 @@ public final class SideBar extends VBox {
         btnFill.setPrefSize(80,25);
         btnFill.setUserData("fill");
         btnFill.setOnAction(getContextClear());
-        btnFill.setTooltip(new Tooltip("Click to fill in a shape with the selected color"));
+        btnFill.setTooltip(new Tooltip("Click on a shape to fill in the shape with the selected color"));
                 
         // Add all elements to the toolbar
         this.getChildren().addAll(toolsLabel1, btnHandDraw, lblThickness, thiccness,

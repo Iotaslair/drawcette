@@ -718,6 +718,7 @@ public class DrawingSurface extends Pane {
         //thing wanting to be changed
         Node node = (Node) event.getTarget();
         //converts node to a shape
+        //try catch is to make sure the person doesn't click
         try
         {
         Shape fillShape = (Shape) node;

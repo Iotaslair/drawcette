@@ -116,21 +116,13 @@ public final class TopMenu extends MenuBar {
         System.out.println("Opened save function");
         BufferedImage bufferedImage = new BufferedImage(550, 400, BufferedImage.TYPE_INT_ARGB);
 
-        //sets a default directory to save pictures
-        File defaultSaveLocation = new File(System.getProperty("user.home"),".gui/SavedPictures");
-        if (!defaultSaveLocation.exists())
-        {
-            defaultSaveLocation.mkdirs();
-        }
-        fileChooser.setInitialDirectory(defaultSaveLocation);
-
         //Extension stuff
         fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("All Files", "*.*"),
-            new FileChooser.ExtensionFilter("All Image Files", "*.jpg","*.jpeg","*.jpe", "*.png" ),
             new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
             new FileChooser.ExtensionFilter("PNG", "*.png")
         );
+
+        fileChooser.setInitialFileName(".jpg");
 
         //Place where the user wants the file saved to
         File outputFile = fileChooser.showSaveDialog(primaryStage);
