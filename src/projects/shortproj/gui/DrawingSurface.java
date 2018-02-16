@@ -69,7 +69,7 @@ public class DrawingSurface extends Pane {
                     				break;
                     case "scale":	scaleClick(event);
                     				break;
-                    case "fill":    fill(event);
+                    case "fill":    fill(event, context);
                                     break;
                     default:        System.out.println("Don't know what to do with this click.");
                                     break;
@@ -718,16 +718,18 @@ public class DrawingSurface extends Pane {
         }
     }
 
-    public void fill(MouseEvent event)
+    public void fill(MouseEvent event, Context context)
     {
         Node node = (Node) event.getTarget();
+
+
 
         try{
         Shape fillShape = (Shape) node;
         fillShape.setFill(context.colorPicker.getColor());
         }
         catch (Exception e){
-            System.out.println("Cannot fill in this because it is not a shape.");
+            this.setBackground(new Background(new BackgroundFill(context.colorPicker.getColor(), null, null)));;
         }
     }
 }
