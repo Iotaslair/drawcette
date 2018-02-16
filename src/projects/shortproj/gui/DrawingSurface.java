@@ -8,6 +8,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -27,6 +29,8 @@ public class DrawingSurface extends Pane {
     public DrawingSurface(Context context) {
         this.context = context;
         groupID = -1;
+        
+        this.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, null, null)));;
 
         // Add an event handler to the pane that checks what button is pressed for what to do on mouseclick.
         this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {

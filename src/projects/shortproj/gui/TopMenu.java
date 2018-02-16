@@ -16,12 +16,10 @@ import javafx.scene.image.ImageView;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
-
 import javax.imageio.ImageIO;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Group;
-import javafx.scene.SnapshotParameters;
 import java.awt.image.BufferedImage;
 
 //Print additions
@@ -34,7 +32,7 @@ import projects.shortproj.util.ElementGroup;
 
 public final class TopMenu extends MenuBar {
 	
-	Context context;
+	public Context context;
 
     Printer printer = Printer.getDefaultPrinter();   //Grabs the default printer
 	public TopMenu(Context context) {     

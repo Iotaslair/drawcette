@@ -6,6 +6,9 @@ import javafx.application.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
 
 public class ShortProject extends Application {
 	public AnchorPane root;
@@ -32,15 +35,15 @@ public class ShortProject extends Application {
         AnchorPane.setRightAnchor(context.colorPicker, 0.0);
         AnchorPane.setBottomAnchor(context.colorPicker, 0.0);
 
-        AnchorPane.setTopAnchor(context.surface, -10000.0);
-        AnchorPane.setLeftAnchor(context.surface, -10000.0);
-        AnchorPane.setRightAnchor(context.surface, -10000.0);
-        AnchorPane.setBottomAnchor(context.surface, -10000.0);
+        AnchorPane.setTopAnchor(context.surface, 0.0);
+        AnchorPane.setLeftAnchor(context.surface, 0.0);
+        AnchorPane.setRightAnchor(context.surface, 0.0);
+        AnchorPane.setBottomAnchor(context.surface, 0.0);
         
         AnchorPane root = new AnchorPane(context.menuBar, context.menuBox, context.sidebarRight, context.colorPicker, context.surface);
-        
+        root.setBackground(new Background(new BackgroundFill(Color.LIGHTSLATEGREY, null, null)));
         Scene scene = new Scene(root, 1200, 800);
-        
+                
         primaryStage.setTitle("Drawcette v0.7-beta");
         primaryStage.setScene(scene);
         primaryStage.show();
