@@ -298,7 +298,7 @@ public class DrawingSurface extends Pane {
             
             if (!(node.getParent() instanceof Group)){
                 ElementGroup activeGroup = context.sidebarRight.getActiveGroup();
-                if (!activeGroup.getGroupName().equals("none")) {
+                if (!activeGroup.getGroupName().equals("- None -")) {
                     activeGroup.getGroup().getChildren().add(node);
                     activeGroup.highlight();            
                 }

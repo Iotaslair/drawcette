@@ -131,7 +131,7 @@ public final class SideBarRight extends VBox {
 	private void disband() {
 		if (list.getSelectionModel().getSelectedItem() == null) return;
 		ElementGroup elementGroup = list.getSelectionModel().getSelectedItem();
-		if (elementGroup.getGroupName().equals("none")) return;
+		if (elementGroup.getGroupName().equals("- None -")) return;
 		Group group = elementGroup.getGroup();
 		elementGroup.unHighlight();
 		
