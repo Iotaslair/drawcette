@@ -143,13 +143,13 @@ public final class TopMenu extends MenuBar {
         bImage = SwingFXUtils.fromFXImage(snapshot,bufferedImage);
         if (outputFile != null)
         {
-        	System.out.println("Trying to save!");
         	try
             {
                 ImageIO.write(bImage, "png", outputFile);
+                System.out.println("Saved!");
             }
             catch (IOException ex){
-            	System.out.println("Exception!");
+            	System.out.println("Failed to save!");
             }  
         }
     }
