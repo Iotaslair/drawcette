@@ -722,10 +722,8 @@ public class DrawingSurface extends Pane {
     {
         Node node = (Node) event.getTarget();
 
-        Bounds boundingBox = node.getBoundsInLocal();
-
         try{
-        Shape fillShape = (Shape) boundingBox;
+        Shape fillShape = (Shape) node;
         fillShape.setFill(context.colorPicker.getColor());
         }
         catch (Exception e){
