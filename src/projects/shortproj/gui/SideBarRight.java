@@ -13,6 +13,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -32,7 +34,8 @@ public final class SideBarRight extends VBox {
         this.setPadding(new Insets(10, 15, 15, 15));
         this.setSpacing(10);
         this.setStyle("-fx-background-color: #336699;");
-                
+        this.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, null, null)));;
+        
         // Buttons
         HBox btnPanel1 = new HBox();
         btnPanel1.setSpacing(10);
