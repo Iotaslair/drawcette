@@ -41,10 +41,10 @@ public class ShortProject extends Application {
         AnchorPane.setBottomAnchor(context.surface, 0.0);
         
         AnchorPane root = new AnchorPane(context.menuBar, context.menuBox, context.sidebarRight, context.colorPicker, context.surface);
-        root.setBackground(new Background(new BackgroundFill(Color.LIGHTSLATEGREY, null, null)));
+        //root.setBackground(new Background(new BackgroundFill(Color.LIGHTSLATEGREY, null, null)));
         Scene scene = new Scene(root, 1200, 800);
                 
-        primaryStage.setTitle("Drawcette v0.7-beta");
+        primaryStage.setTitle("Drawcette v0.1");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
