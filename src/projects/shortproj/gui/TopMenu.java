@@ -160,12 +160,17 @@ public final class TopMenu extends MenuBar {
     	PageLayout layOut = printer.createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
     	//Above line creates the printed page's default values
     	
-    	if(printing !=null){
-    		boolean finished = printing.printPage(printTarget); //Check if printing is successful. 
-    		if (finished) {
-    			printing.endJob(); //Ends Print
-    		}
-    	}
+    	if (printing != null && printing.showPrintDialog(printTarget.getScene().getWindow())) {
+            //.showPrintDialog provides a basic UI system for the user to select which printer they want and what print
+            //settings they want. It returns true if user accepts print settings OR there isn't a default print UI.
+            //Returns false if print is canceled, print job is already started or failed.
+           if(printing !=null){
+             boolean finished = printing.printPage(printTarget); //Check if printing is successful. 
+             if (finished) {
+               printing.endJob();
+             }
+           }
+        }
     	
     }
     
