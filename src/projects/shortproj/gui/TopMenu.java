@@ -71,6 +71,9 @@ public final class TopMenu extends MenuBar {
         FileChooser fileChooser = new FileChooser();
         //sets title of said object
         fileChooser.setTitle("Open File");
+
+        File defaultSaveLocation = new File(System.getProperty("user.home"),"");
+        fileChooser.setInitialDirectory(defaultSaveLocation);
         
         //allows for the user to filter between different types of files
         fileChooser.getExtensionFilters().addAll(
@@ -113,7 +116,6 @@ public final class TopMenu extends MenuBar {
     {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
-        System.out.println("Opened save function");
         BufferedImage bufferedImage = new BufferedImage(550, 400, BufferedImage.TYPE_INT_ARGB);
 
         //Extension stuff
@@ -121,6 +123,11 @@ public final class TopMenu extends MenuBar {
             new FileChooser.ExtensionFilter("JPG", "*.jpg","*.jpeg","*.jpe"),
             new FileChooser.ExtensionFilter("PNG", "*.png")
         );
+
+         //sets a default directory to save pictures
+        File defaultSaveLocation = new File(System.getProperty("user.home"),"");
+        fileChooser.setInitialDirectory(defaultSaveLocation);
+
 
         fileChooser.setInitialFileName(".jpg");
 
@@ -130,7 +137,8 @@ public final class TopMenu extends MenuBar {
         //makes a writable image which takes a picture of whats in the drawing space
         //                                                        Looking for height and width of stuff
         //                                                        or get the right scene thing
-        WritableImage snapshot = pane.snapshot(new SnapshotParameters(),null);
+
+        WritableImage snapshot = pane.snapshot(null,null);
         BufferedImage bImage;
         bImage = javafx.embed.swing.SwingFXUtils.fromFXImage(snapshot,bufferedImage);
         if (outputFile != null)
@@ -155,7 +163,7 @@ public final class TopMenu extends MenuBar {
     	double scaleY = layOut.getPrintableHeight()/printTarget.getBoundsInParent().getHeight();
     	Scale scaled = new Scale(scaleX, scaleY);
     	printTarget.getTransforms().add(scaled);  //Scales image
-    	if(printing !=null){
+    	if(printing !=null){ 
     		boolean finished = printing.printPage(printTarget); //Check if printing is successful. 
     		if (finished) {
     			printing.endJob(); //Ends Print
