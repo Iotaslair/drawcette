@@ -21,6 +21,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Group;
 import java.awt.image.BufferedImage;
+import javafx.embed.swing.SwingFXUtils;
 
 //Print additions
 import javafx.print.*;
@@ -136,9 +137,10 @@ public final class TopMenu extends MenuBar {
         //                                                        Looking for height and width of stuff
         //                                                        or get the right scene thing
 
+
         WritableImage snapshot = pane.snapshot(null,null);
         BufferedImage bImage;
-        bImage = javafx.embed.swing.SwingFXUtils.fromFXImage(snapshot,bufferedImage);
+        bImage = SwingFXUtils.fromFXImage(snapshot,bufferedImage);
         if (outputFile != null)
         {
         	System.out.println("Trying to save!");
