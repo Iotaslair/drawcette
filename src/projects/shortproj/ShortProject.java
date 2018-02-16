@@ -32,16 +32,16 @@ public class ShortProject extends Application {
         AnchorPane.setRightAnchor(context.colorPicker, 0.0);
         AnchorPane.setBottomAnchor(context.colorPicker, 0.0);
 
-        AnchorPane.setTopAnchor(context.surface, 0.0);
-        AnchorPane.setLeftAnchor(context.surface, 0.0);
-        AnchorPane.setRightAnchor(context.surface, 0.0);
-        AnchorPane.setBottomAnchor(context.surface, 0.0);
+        AnchorPane.setTopAnchor(context.surface, -10000.0);
+        AnchorPane.setLeftAnchor(context.surface, -10000.0);
+        AnchorPane.setRightAnchor(context.surface, -10000.0);
+        AnchorPane.setBottomAnchor(context.surface, -10000.0);
         
         AnchorPane root = new AnchorPane(context.menuBar, context.menuBox, context.sidebarRight, context.colorPicker, context.surface);
         
         Scene scene = new Scene(root, 1200, 800);
         
-        primaryStage.setTitle("Photopoop v.0.0.3 // Shapes can be like filled dude Edition");
+        primaryStage.setTitle("Drawcette v0.7-beta");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

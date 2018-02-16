@@ -24,11 +24,13 @@ public class ColorBar extends HBox {
     ToggleButton color6 = new ToggleButton();
     ToggleButton color7 = new ToggleButton();
     ToggleButton color8 = new ToggleButton();
-
+    Label lblZoom = new Label("100%");
     public HBox btnPanel = new HBox();
     public Button btnZoomIn = new Button("+");
     public Button btnZoomOut = new Button("-");
     public Button btnResetZoom = new Button("R");
+    
+    String currentZoom = new String();
     
 	public ColorBar(Context context) {
 		this.context = context;
@@ -96,7 +98,6 @@ public class ColorBar extends HBox {
         
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        Label lblZoom = new Label("Zoom:");
         lblZoom.setTextFill(Color.WHITE);
         lblZoom.setPadding(new Insets(6));
         
@@ -120,6 +121,9 @@ public class ColorBar extends HBox {
             public void handle(MouseEvent event) {
             	context.surface.setScaleX(context.surface.getScaleX() + 0.1);
             	context.surface.setScaleY(context.surface.getScaleY() + 0.1);
+            	Double d = context.surface.getScaleX() * 100;
+            	currentZoom = Integer.toString(d.intValue());
+            	lblZoom.setText(currentZoom + "%");
             }
     	});
     	
@@ -131,11 +135,10 @@ public class ColorBar extends HBox {
             	if (context.surface.getScaleX() > 0.2 && context.surface.getScaleY() > 0.2) {
                 	context.surface.setScaleX(context.surface.getScaleX() - 0.1);
                 	context.surface.setScaleY(context.surface.getScaleY() - 0.1);            		
-            	}
-            	double newSurfaceWidth = context.surface.getWidth() * 2;
-            	double newSurfaceHeight = context.surface.getHeight() * 2;
-            	context.surface.setPrefSize(newSurfaceWidth, newSurfaceHeight);
-            	System.out.println(newSurfaceWidth + " " + newSurfaceHeight);
+                	Double d = context.surface.getScaleX() * 100;
+                	currentZoom = Integer.toString(d.intValue());
+                	lblZoom.setText(currentZoom + "%");
+                }
             }
     	});
     	
@@ -144,6 +147,9 @@ public class ColorBar extends HBox {
             public void handle(MouseEvent event) {
             	context.surface.setScaleX(1);
             	context.surface.setScaleY(1);
+            	Double d = context.surface.getScaleX() * 100;
+            	currentZoom = Integer.toString(d.intValue());
+            	lblZoom.setText(currentZoom + "%");
             }
     	});
 	}

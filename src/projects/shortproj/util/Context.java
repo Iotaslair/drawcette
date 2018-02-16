@@ -51,6 +51,7 @@ public class Context {
         menuBox.setPrefWidth(100.0);
         sidebarRight.setPrefWidth(180.0);
         colorPicker.setPrefHeight(60.0);
+        surface.setPrefSize(50000, 50000);
         
 		storedx = 0;
 		storedy = 0;
