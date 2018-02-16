@@ -16,6 +16,7 @@ import projects.shortproj.util.Context;
 import projects.shortproj.util.ElementGroup;
 import java.lang.Math;
 import java.util.Optional;
+import javafx.geometry.Bounds;
 
 public class DrawingSurface extends Pane {
 
@@ -717,8 +718,10 @@ public class DrawingSurface extends Pane {
     {
         Node node = (Node) event.getTarget();
 
+        Bounds boundingBox = node.getBoundsInLocal();
+
         try{
-        Shape fillShape = (Shape) node;
+        Shape fillShape = (Shape) boundingBox;
         fillShape.setFill(context.colorPicker.getColor());
         }
         catch (Exception e){
