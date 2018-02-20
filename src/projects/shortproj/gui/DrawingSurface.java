@@ -18,7 +18,6 @@ import projects.shortproj.util.Context;
 import projects.shortproj.util.ElementGroup;
 import java.lang.Math;
 import java.util.Optional;
-import javafx.geometry.Bounds;
 
 public class DrawingSurface extends Pane {
 
