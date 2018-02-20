@@ -6,9 +6,6 @@ import javafx.application.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.paint.Color;
 
 public class ShortProject extends Application {
 	public AnchorPane root;
