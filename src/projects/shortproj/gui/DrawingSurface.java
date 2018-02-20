@@ -721,9 +721,7 @@ public class DrawingSurface extends Pane {
     public void fill(MouseEvent event, Context context)
     {
         Node node = (Node) event.getTarget();
-
-
-
+        
         try{
         Shape fillShape = (Shape) node;
         fillShape.setFill(context.colorPicker.getColor());
