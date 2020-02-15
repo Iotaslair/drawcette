@@ -15,8 +15,6 @@ javac src\projects\shortproj\util\Context.java -cp src\ -d bin\
 javac src\projects\shortproj\gui\DrawingSurface.java -cp src\ -d bin\
 javac src\projects\shortproj\util\ElementGroup.java -cp src\ -d bin\
 
-cd bin\
+cd bin
 
-java projects.shortproj.ShortProject
-
-pause
+java -cp ".;." projects.shortproj.ShortProject
